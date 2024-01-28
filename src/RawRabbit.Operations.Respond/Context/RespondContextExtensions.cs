@@ -1,7 +1,7 @@
-﻿using System;
-using RawRabbit.Operations.Respond.Configuration;
+﻿using RawRabbit.Operations.Respond.Configuration;
 using RawRabbit.Operations.Respond.Context;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit
 {

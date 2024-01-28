@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -18,7 +18,7 @@ namespace RawRabbit
 			var result = await client.InvokeAsync(ConsumerAction, context =>
 			{
 				context.Properties.Add(PipeKey.ConsumeConfiguration, config);
-			},ct);
+			}, ct);
 			return result.GetConsumer();
 		}
 	}

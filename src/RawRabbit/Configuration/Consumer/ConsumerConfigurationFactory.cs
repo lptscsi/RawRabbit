@@ -1,8 +1,8 @@
-﻿using System;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Queue;
+using System;
 
 namespace RawRabbit.Configuration.Consumer
 {
@@ -36,7 +36,7 @@ namespace RawRabbit.Configuration.Consumer
 
 		public ConsumerConfiguration Create(string queueName, string exchangeName, string routingKey)
 		{
-			var cfg =  new ConsumerConfiguration
+			var cfg = new ConsumerConfiguration
 			{
 				Queue = _queue.Create(queueName),
 				Exchange = _exchange.Create(exchangeName),

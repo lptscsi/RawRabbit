@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
-using Autofac.Core.Registration;
-using RawRabbit.DependencyInjection;
+using System;
+using System.Linq;
 
 namespace RawRabbit.DependencyInjection.Autofac
 {

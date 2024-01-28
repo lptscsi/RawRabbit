@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel.Abstraction;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Configuration;
 using RawRabbit.Logging;
@@ -16,6 +10,11 @@ using RawRabbit.Operations.StateMachine;
 using RawRabbit.Operations.StateMachine.Trigger;
 using RawRabbit.Pipe;
 using Stateless;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.MessageSequence.StateMachine
 {
@@ -101,7 +100,7 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 			{
 				Type = typeof(TMessage),
 				AbortsExecution = optionBuilder.Configuration.AbortsExecution,
-				Optional =  optionBuilder.Configuration.Optional
+				Optional = optionBuilder.Configuration.Optional
 			});
 
 			var trigger = StateMachine.SetTriggerParameters<MessageAndContext<TMessage, TMessageContext>>(typeof(TMessage));
@@ -160,9 +159,9 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 				});
 
 			_triggerConfigurer
-				.FromMessage<MessageSequence,TMessage, TMessageContext>(
+				.FromMessage<MessageSequence, TMessage, TMessageContext>(
 					(msg, ctx) => Model.Id,
-					(sequence, message, ctx) => StateMachine.FireAsync(trigger, new MessageAndContext<TMessage, TMessageContext> {Context = ctx, Message = message}),
+					(sequence, message, ctx) => StateMachine.FireAsync(trigger, new MessageAndContext<TMessage, TMessageContext> { Context = ctx, Message = message }),
 					cfg => cfg
 						.FromDeclaredQueue(q => q
 							.WithNameSuffix(Model.Id.ToString())
@@ -240,7 +239,7 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 				{
 					context.Properties.Add(StateMachineKey.ModelId, Model.Id);
 					context.Properties.Add(StateMachineKey.Machine, this);
-					context.Properties.TryAdd(PipeKey.Channel, _channel);
+					DictionaryExtensions.TryAdd(context.Properties, PipeKey.Channel, _channel);
 				};
 				var ctx = _client.InvokeAsync(triggerCfg.Pipe, triggerCfg.Context).GetAwaiter().GetResult();
 				_subscriptions.Add(ctx.GetSubscription());

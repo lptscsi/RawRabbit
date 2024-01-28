@@ -1,8 +1,8 @@
-﻿using System;
-using RawRabbit.Operations.MessageSequence.Configuration.Abstraction;
+﻿using RawRabbit.Operations.MessageSequence.Configuration.Abstraction;
 using RawRabbit.Operations.MessageSequence.Model;
 using RawRabbit.Operations.StateMachine;
 using RawRabbit.Operations.StateMachine.Middleware;
+using System;
 
 namespace RawRabbit.Operations.MessageSequence
 {

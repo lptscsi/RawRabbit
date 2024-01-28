@@ -2,7 +2,8 @@
 
 namespace RawRabbit.Configuration.Consume
 {
-	public interface IConsumeConfigurationBuilder {
+	public interface IConsumeConfigurationBuilder
+	{
 		IConsumeConfigurationBuilder OnExchange(string exchange);
 		IConsumeConfigurationBuilder FromQueue(string queue);
 		[Obsolete("Property name changed. Use 'WithAutoAck' instead.")]

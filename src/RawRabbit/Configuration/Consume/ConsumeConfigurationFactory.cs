@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RawRabbit.Common;
+using System;
 using System.Collections.Generic;
-using RawRabbit.Common;
 
 namespace RawRabbit.Configuration.Consume
 {

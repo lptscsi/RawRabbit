@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Operations.Respond.Acknowledgement;
 using RawRabbit.Operations.Respond.Context;
 using RawRabbit.Operations.Respond.Core;
 using RawRabbit.Operations.Respond.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -16,13 +15,16 @@ namespace RawRabbit
 	{
 		public static readonly Action<IPipeBuilder> ConsumePipe = pipe => pipe
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.MessageReceived))
-			.Use<RespondExceptionMiddleware>(new RespondExceptionOptions { InnerPipe = p => p
+			.Use<RespondExceptionMiddleware>(new RespondExceptionOptions
+			{
+				InnerPipe = p => p
 				.Use<BodyDeserializationMiddleware>(new MessageDeserializationOptions
 				{
 					BodyTypeFunc = context => context.GetRequestMessageType()
 				})
 				.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.MessageDeserialized))
-				.Use<HandlerInvocationMiddleware>(ResponseHandlerOptionFactory.Create()) })
+				.Use<HandlerInvocationMiddleware>(ResponseHandlerOptionFactory.Create())
+			})
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.HandlerInvoked))
 			.Use<ExplicitAckMiddleware>()
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.MessageAcknowledged))
@@ -43,7 +45,7 @@ namespace RawRabbit
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.ResponseSerialized))
 			.Use<ReplyToExtractionMiddleware>()
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.ReplyToExtracted))
-			.Use<PooledChannelMiddleware>(new PooledChannelOptions{ PoolNameFunc = c => RespondKey.ChannelPoolName})
+			.Use<PooledChannelMiddleware>(new PooledChannelOptions { PoolNameFunc = c => RespondKey.ChannelPoolName })
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.RespondChannelCreated))
 			.Use<BasicPublishMiddleware>(new BasicPublishOptions
 			{

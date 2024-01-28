@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
@@ -23,7 +23,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.BasicPublish);
 			var policyTask = policy.ExecuteAsync(
-				action: () =>
+				action: (ctx) =>
 				{
 					base.BasicPublish(channel, exchange, routingKey, mandatory, basicProps, body, context);
 					return Task.FromResult(true);

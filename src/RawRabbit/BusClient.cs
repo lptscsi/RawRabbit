@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Channel.Abstraction;
+using RawRabbit.Pipe;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Channel.Abstraction;
-using RawRabbit.Pipe;
 
 namespace RawRabbit
 {

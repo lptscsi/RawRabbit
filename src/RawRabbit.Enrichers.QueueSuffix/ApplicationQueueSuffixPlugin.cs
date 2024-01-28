@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RawRabbit.Instantiation;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using RawRabbit.Instantiation;
 
 namespace RawRabbit.Enrichers.QueueSuffix
 {
-	public static  class ApplicationQueueSuffixPlugin
+	public static class ApplicationQueueSuffixPlugin
 	{
 		private const string IisWorkerProcessName = "w3wp";
 		private static readonly Regex DllRegex = new Regex(@"(?<ApplicationName>[^\\]*).dll", RegexOptions.Compiled);
@@ -15,7 +15,7 @@ namespace RawRabbit.Enrichers.QueueSuffix
 
 		public static IClientBuilder UseApplicationQueueSuffix(this IClientBuilder builder)
 		{
-			var commandLine =  Environment.GetCommandLineArgs();
+			var commandLine = Environment.GetCommandLineArgs();
 			var match = ConsoleOrServiceRegex.Match(commandLine.FirstOrDefault() ?? string.Empty);
 			var applicationName = string.Empty;
 
@@ -54,7 +54,7 @@ namespace RawRabbit.Enrichers.QueueSuffix
 				}
 			}
 
-			var name =  applicationName.Replace(".", "_").ToLower();
+			var name = applicationName.Replace(".", "_").ToLower();
 			builder.UseQueueSuffix(new QueueSuffixOptions
 			{
 				CustomSuffixFunc = context => name,

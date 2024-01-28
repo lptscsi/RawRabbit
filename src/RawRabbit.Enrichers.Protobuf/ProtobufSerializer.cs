@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using ProtoBuf;
+﻿using ProtoBuf;
 using RawRabbit.Serialization;
+using System;
+using System.IO;
 
 namespace RawRabbit.Enrichers.Protobuf
 {

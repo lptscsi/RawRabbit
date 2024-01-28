@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RawRabbit.DependencyInjection;
+using System;
 using System.Threading.Tasks;
-using RawRabbit.DependencyInjection;
 
 namespace RawRabbit.Operations.StateMachine.Core
 {
@@ -35,7 +35,7 @@ namespace RawRabbit.Operations.StateMachine.Core
 			await _modelRepo.AddOrUpdateAsync(newModel);
 			return newMachine;
 		}
-		
+
 		public async Task PersistAsync(StateMachineBase stateMachine)
 		{
 			await _modelRepo.AddOrUpdateAsync(stateMachine.GetDto());

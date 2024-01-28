@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using RawRabbit.Configuration;
 using RawRabbit.Enrichers.GlobalExecutionId;
 using RawRabbit.Enrichers.MessageContext;
@@ -9,6 +6,9 @@ using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Instantiation;
 using RawRabbit.Messages.Sample;
 using Serilog;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace RawRabbit.ConsoleApp.Sample
 {
@@ -27,17 +27,21 @@ namespace RawRabbit.ConsoleApp.Sample
 				.WriteTo.LiterateConsole()
 				.CreateLogger();
 
-			_client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions
+			var config = new RawRabbitConfiguration();
+			(new ConfigurationBuilder()
+				   .SetBasePath(Directory.GetCurrentDirectory())
+				   .AddJsonFile("rawrabbit.json")
+				   .Build())
+				   .Bind(config);
+
+		   _client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions
 			{
-				ClientConfiguration = new ConfigurationBuilder()
-					.SetBasePath(Directory.GetCurrentDirectory())
-					.AddJsonFile("rawrabbit.json")
-					.Build()
-					.Get<RawRabbitConfiguration>(),
+				ClientConfiguration = config,
 				Plugins = p => p
 					.UseGlobalExecutionId()
 					.UseMessageContext<MessageContext>()
 			});
+			
 
 			await _client.SubscribeAsync<ValuesRequested, MessageContext>((requested, ctx) => ServerValuesAsync(requested, ctx));
 			await _client.RespondAsync<ValueRequest, ValueResponse>(request => SendValuesThoughRpcAsync(request));

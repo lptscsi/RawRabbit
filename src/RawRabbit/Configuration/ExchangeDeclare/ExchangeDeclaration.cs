@@ -8,7 +8,7 @@ namespace RawRabbit.Configuration.Exchange
 		public string ExchangeType { get; set; }
 		public bool Durable { get; set; }
 		public bool AutoDelete { get; set; }
-		public IDictionary<string,object> Arguments { get; set; }
+		public IDictionary<string, object> Arguments { get; set; }
 
 		public ExchangeDeclaration()
 		{

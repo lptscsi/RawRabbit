@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using System;
 using System.Collections.Generic;
-using RabbitMQ.Client;
 
 namespace RawRabbit.Operations.Get.Model
 {

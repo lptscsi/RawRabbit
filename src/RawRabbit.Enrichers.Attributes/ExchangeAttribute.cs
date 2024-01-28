@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.Configuration.Exchange;
+﻿using RawRabbit.Configuration.Exchange;
+using System;
 
 namespace RawRabbit.Enrichers.Attributes
 {

@@ -1,10 +1,8 @@
-﻿using System;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Framing;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Configuration.BasicPublish;
 using RawRabbit.Configuration.Exchange;
+using System;
 
 namespace RawRabbit.Configuration.Publisher
 {
@@ -28,7 +26,7 @@ namespace RawRabbit.Configuration.Publisher
 
 		public IPublisherConfigurationBuilder WithReturnCallback(Action<BasicReturnEventArgs> callback)
 		{
-			Config.ReturnCallback = Config.ReturnCallback ?? ((sender, args) =>{}) ;
+			Config.ReturnCallback = Config.ReturnCallback ?? ((sender, args) => { });
 			Config.ReturnCallback += (sender, args) => callback(args);
 			Config.Mandatory = true;
 			return this;
@@ -54,11 +52,11 @@ namespace RawRabbit.Configuration.Publisher
 			return this;
 		}
 
-		public IBasicPublishConfigurationBuilder WithProperties(Action<IBasicProperties> propAction)
+		public IBasicPublishConfigurationBuilder WithProperties(Action<BasicPropertiesConfiguration> propAction)
 		{
 			if (Config.BasicProperties == null)
 			{
-				Config.BasicProperties = new BasicProperties();
+				Config.BasicProperties = new BasicPropertiesConfiguration();
 			}
 			propAction?.Invoke(Config.BasicProperties);
 			return this;

@@ -7,7 +7,7 @@ namespace RawRabbit.Exceptions
 		public PublishConfirmException()
 		{ }
 
-		public PublishConfirmException(string message) :base(message)
+		public PublishConfirmException(string message) : base(message)
 		{ }
 
 		public PublishConfirmException(string message, Exception inner)

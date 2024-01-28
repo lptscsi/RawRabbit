@@ -1,7 +1,7 @@
-using System.Threading;
-using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RawRabbit.Configuration.Consume;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Consumer
 {

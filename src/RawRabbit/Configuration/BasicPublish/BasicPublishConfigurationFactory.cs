@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Framing;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Serialization;
+using System;
+using System.Collections.Generic;
 
 namespace RawRabbit.Configuration.BasicPublish
 {
@@ -47,11 +44,11 @@ namespace RawRabbit.Configuration.BasicPublish
 		{
 			return new BasicPublishConfiguration
 			{
-				BasicProperties = new BasicProperties()
+				BasicProperties = new BasicPropertiesConfiguration()
 			};
 		}
 
-		protected  virtual string GetRoutingKey(Type type)
+		protected virtual string GetRoutingKey(Type type)
 		{
 			return _conventions.RoutingKeyConvention(type);
 		}
@@ -66,17 +63,16 @@ namespace RawRabbit.Configuration.BasicPublish
 			return _conventions.ExchangeNamingConvention(type);
 		}
 
-		protected virtual IBasicProperties GetBasicProperties(Type type)
+		protected virtual BasicPropertiesConfiguration GetBasicProperties(Type type)
 		{
-			return new BasicProperties
+			return new BasicPropertiesConfiguration
 			{
 				Type = type.GetUserFriendlyName(),
 				MessageId = Guid.NewGuid().ToString(),
 				DeliveryMode = _config.PersistentDeliveryMode ? Convert.ToByte(2) : Convert.ToByte(1),
 				ContentType = _serializer.ContentType,
 				ContentEncoding = "UTF-8",
-				UserId =  _config.Username,
-				Headers = new Dictionary<string, object>()
+				UserId = _config.Username
 			};
 		}
 

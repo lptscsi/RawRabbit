@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Operations.StateMachine.Core
 {
@@ -40,7 +40,7 @@ namespace RawRabbit.Operations.StateMachine.Core
 		{
 			_semaphores = new ConcurrentDictionary<Guid, SemaphoreSlim>();
 		}
-		
+
 		public async Task ExecuteAsync(Guid modelId, Func<Task> handler, CancellationToken ct = default(CancellationToken))
 		{
 			var semaphore = _semaphores.GetOrAdd(modelId, guid => new SemaphoreSlim(1, 1));

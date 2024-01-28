@@ -1,7 +1,7 @@
-﻿using System;
-using RawRabbit.Configuration.Consumer;
+﻿using RawRabbit.Configuration.Consumer;
 using RawRabbit.Operations.Subscribe.Context;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit
 {

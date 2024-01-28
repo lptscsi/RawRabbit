@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Configuration;
 using RawRabbit.Exceptions;
 using RawRabbit.Logging;
+using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Channel
 {
@@ -66,7 +66,7 @@ namespace RawRabbit.Channel
 			}
 			_logger.Info("The existing connection is not open.");
 
-			if (Connection.CloseReason != null &&Connection.CloseReason.Initiator == ShutdownInitiator.Application)
+			if (Connection.CloseReason != null && Connection.CloseReason.Initiator == ShutdownInitiator.Application)
 			{
 				_logger.Info("Connection is closed with Application as initiator. It will not be recovered.");
 				Connection.Dispose();

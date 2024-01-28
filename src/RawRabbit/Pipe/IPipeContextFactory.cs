@@ -1,6 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using RawRabbit.Configuration;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using RawRabbit.Configuration;
 
 namespace RawRabbit.Pipe
 {

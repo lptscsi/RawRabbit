@@ -1,11 +1,11 @@
-﻿using System;
-using RawRabbit.Configuration.Consume;
+﻿using RawRabbit.Configuration.Consume;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Queue;
+using System;
 
 namespace RawRabbit.Configuration.Consumer
 {
-	public class ConsumerConfigurationBuilder :  IConsumerConfigurationBuilder
+	public class ConsumerConfigurationBuilder : IConsumerConfigurationBuilder
 	{
 		public ConsumerConfiguration Config { get; }
 

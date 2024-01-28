@@ -1,6 +1,6 @@
-﻿using System;
-using RawRabbit.Configuration.Consumer;
+﻿using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Publisher;
+using System;
 
 namespace RawRabbit.Operations.Request.Configuration.Abstraction
 {

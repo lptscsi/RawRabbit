@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
     <Description>Route messages based on Routing Attributes. Includes attributes for Exchange, Queue and Routing.</Description>
     <AssemblyTitle>RawRabbit.Enrichers.Attributes</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
     <AssemblyName>RawRabbit.Enrichers.Attributes</AssemblyName>
     <PackageId>RawRabbit.Enrichers.Attributes</PackageId>
     <PackageTags>rabbitmq;rawrabbit;attributes</PackageTags>

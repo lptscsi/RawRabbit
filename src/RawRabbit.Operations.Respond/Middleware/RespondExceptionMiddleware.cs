@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Consume;
@@ -9,6 +6,9 @@ using RawRabbit.Exceptions;
 using RawRabbit.Operations.Respond.Core;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Respond.Middleware
 {

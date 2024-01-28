@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Channel;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -17,7 +17,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.ChannelCreate);
 			return policy.ExecuteAsync(
-				action: ct => base.GetChannelAsync(context, ct),
+				action: (ctx, token) => base.GetChannelAsync(context, token),
 				cancellationToken: token,
 				contextData: new Dictionary<string, object>
 				{

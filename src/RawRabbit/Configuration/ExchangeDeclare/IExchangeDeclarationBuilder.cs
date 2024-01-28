@@ -5,7 +5,7 @@
 		IExchangeDeclarationBuilder WithName(string exchangeName);
 		IExchangeDeclarationBuilder WithType(ExchangeType exchangeType);
 		IExchangeDeclarationBuilder WithDurability(bool durable = true);
-		IExchangeDeclarationBuilder WithAutoDelete(bool autoDelete= true);
+		IExchangeDeclarationBuilder WithAutoDelete(bool autoDelete = true);
 		IExchangeDeclarationBuilder WithArgument(string name, string value);
 	}
 }

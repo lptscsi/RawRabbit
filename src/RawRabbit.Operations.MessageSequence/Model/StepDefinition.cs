@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.MessageSequence.Model
 {

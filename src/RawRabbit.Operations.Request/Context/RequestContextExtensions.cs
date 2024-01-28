@@ -1,7 +1,7 @@
-﻿using System;
-using RawRabbit.Operations.Request.Configuration.Abstraction;
+﻿using RawRabbit.Operations.Request.Configuration.Abstraction;
 using RawRabbit.Operations.Request.Context;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit
 {

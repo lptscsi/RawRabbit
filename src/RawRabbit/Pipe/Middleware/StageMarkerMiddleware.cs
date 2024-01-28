@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Pipe.Middleware
 {

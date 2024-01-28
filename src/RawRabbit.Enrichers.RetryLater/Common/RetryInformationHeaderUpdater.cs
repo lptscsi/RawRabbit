@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RabbitMQ.Client.Events;
+using System;
 using System.Collections.Generic;
-using RabbitMQ.Client.Events;
 
 namespace RawRabbit.Common
 {
@@ -62,7 +62,7 @@ namespace RawRabbit.Common
 			}
 
 			var headerStr = System.Text.Encoding.UTF8.GetString(headerBytes);
-				return headerStr;
+			return headerStr;
 		}
 	}
 }

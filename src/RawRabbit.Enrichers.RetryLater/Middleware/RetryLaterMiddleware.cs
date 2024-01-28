@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Exchange;
@@ -10,6 +6,10 @@ using RawRabbit.Configuration.Queue;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using ExchangeType = RabbitMQ.Client.ExchangeType;
 
 namespace RawRabbit.Middleware

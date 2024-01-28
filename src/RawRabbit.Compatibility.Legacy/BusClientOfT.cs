@@ -1,12 +1,9 @@
-using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Framing;
-using RawRabbit.Common;
 using RawRabbit.Compatibility.Legacy.Configuration;
 using RawRabbit.Compatibility.Legacy.Configuration.Publish;
 using RawRabbit.Compatibility.Legacy.Configuration.Request;
 using RawRabbit.Compatibility.Legacy.Configuration.Respond;
 using RawRabbit.Compatibility.Legacy.Configuration.Subscribe;
+using RawRabbit.Configuration;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Exchange;
@@ -16,6 +13,8 @@ using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Pipe;
 using RawRabbit.Subscription;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Compatibility.Legacy
 {
@@ -102,7 +101,7 @@ namespace RawRabbit.Compatibility.Legacy
 				Exchange = exchangeCfg,
 				ExchangeName = config.Exchange.ExchangeName,
 				RoutingKey = config.RoutingKey,
-				BasicProperties = new BasicProperties(),
+				BasicProperties = new BasicPropertiesConfiguration(),
 				Mandatory = config.BasicReturn != null,
 				ReturnCallback = config.BasicReturn
 			};
@@ -200,7 +199,7 @@ namespace RawRabbit.Compatibility.Legacy
 				{
 					Exchange = exchangeCfg,
 					ExchangeName = config.Exchange.ExchangeName,
-					BasicProperties = new BasicProperties(),
+					BasicProperties = new BasicPropertiesConfiguration(),
 					RoutingKey = config.RoutingKey,
 					Mandatory = false
 				},

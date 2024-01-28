@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Instantiation;
+﻿using RawRabbit.Instantiation;
 using RawRabbit.Operations.StateMachine;
 using RawRabbit.Operations.StateMachine.Core;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -30,7 +30,7 @@ namespace RawRabbit
 			Func<Guid, Func<Task>, CancellationToken, Task> execute = null)
 		{
 			builder.Register(
-				pipe => {},
+				pipe => { },
 				ioc => ioc
 					.AddSingleton<IGlobalLock>(new GlobalLock(execute))
 					.AddSingleton<IModelRepository>(new ModelRepository(get, addOrUpdate))

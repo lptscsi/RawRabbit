@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RawRabbit.Configuration.Get;
+using RawRabbit.Operations.Get.Model;
+using RawRabbit.Pipe;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Configuration.Get;
-using RawRabbit.Operations.Get.Model;
-using RawRabbit.Pipe;
 
 namespace RawRabbit
 {
@@ -13,12 +13,12 @@ namespace RawRabbit
 	{
 		public static async Task<Ackable<List<Ackable<TMessage>>>> GetManyAsync<TMessage>(this IBusClient busClient, int batchSize, Action<IGetConfigurationBuilder> config = null, CancellationToken token = default(CancellationToken))
 		{
-			var channel = await busClient.CreateChannelAsync(token:token);
+			var channel = await busClient.CreateChannelAsync(token: token);
 			var result = new List<Ackable<TMessage>>();
 
 			while (result.Count < batchSize)
 			{
-				var ackableMessage = await busClient.GetAsync<TMessage>(config, c => c.Properties.TryAdd(PipeKey.Channel, channel), token);
+				var ackableMessage = await busClient.GetAsync<TMessage>(config, c => DictionaryExtensions.TryAdd(c.Properties, PipeKey.Channel, channel), token);
 				if (ackableMessage.Content == null)
 				{
 					break;

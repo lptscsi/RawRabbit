@@ -1,19 +1,20 @@
-﻿using System;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
+using RawRabbit.Configuration;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
 using RawRabbit.Serialization;
+using System;
 
 namespace RawRabbit.Operations.Request.Middleware
 {
 	public class BasicPropertiesMiddleware : Pipe.Middleware.BasicPropertiesMiddleware
 	{
-		public BasicPropertiesMiddleware(ISerializer serializer, BasicPropertiesOptions options) :base(serializer, options)
+		public BasicPropertiesMiddleware(ISerializer serializer, BasicPropertiesOptions options) : base(serializer, options)
 		{ }
 
-		protected override void ModifyBasicProperties(IPipeContext context, IBasicProperties props)
+		protected override void ModifyBasicProperties(IPipeContext context, BasicPropertiesConfiguration props)
 		{
 			var correlationId = context.GetCorrelationId() ?? Guid.NewGuid().ToString();
 			var consumeCfg = context.GetResponseConfiguration();

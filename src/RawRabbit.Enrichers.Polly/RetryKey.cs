@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using RawRabbit.Channel.Abstraction;
+﻿using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Consumer;
 using RawRabbit.Pipe;
+using System.Collections.Generic;
 
 namespace RawRabbit.Enrichers.Polly
 {
@@ -88,7 +84,7 @@ namespace RawRabbit.Enrichers.Polly
 			var value = ctx[key];
 			if (value is TType)
 			{
-				return (TType) value;
+				return (TType)value;
 			}
 			return fallback;
 		}

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Consumer;
 using RawRabbit.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {

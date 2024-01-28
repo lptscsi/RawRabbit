@@ -717,7 +717,7 @@ namespace RawRabbit.Logging
 			catch (Exception ex)
 			{
 #if LIBLOG_PORTABLE
-                Debug.WriteLine(
+				Debug.WriteLine(
 #else
 				Console.WriteLine(
 #endif
@@ -1039,7 +1039,7 @@ namespace RawRabbit.Logging.LogProviders
 							}
 						}
 #else
-                        s_callerStackBoundaryType = null;
+						s_callerStackBoundaryType = null;
 #endif
 						if (s_callerStackBoundaryType != null)
 							_logger.Log(s_callerStackBoundaryType, _logEventInfoFact(_logger.Name, nlogLevel, messageFunc(), exception));
@@ -1520,7 +1520,7 @@ namespace RawRabbit.Logging.LogProviders
 							}
 						}
 #else
-                        s_callerStackBoundaryType = typeof (LoggerExecutionWrapper);
+						s_callerStackBoundaryType = typeof(LoggerExecutionWrapper);
 #endif
 					}
 				}
@@ -2195,7 +2195,7 @@ namespace RawRabbit.Logging.LogProviders
 	{
 		//private static readonly Regex Pattern = new Regex(@"\{@?\w{1,}\}");
 #if LIBLOG_PORTABLE
-        private static readonly Regex Pattern = new Regex(@"(?<!{){@?(?<arg>[^\d{][^ }]*)}");
+		private static readonly Regex Pattern = new Regex(@"(?<!{){@?(?<arg>[^\d{][^ }]*)}");
 #else
 		private static readonly Regex Pattern = new Regex(@"(?<!{){@?(?<arg>[^ :{}]+)(?<format>:[^}]+)?}", RegexOptions.Compiled);
 #endif
@@ -2283,11 +2283,11 @@ namespace RawRabbit.Logging.LogProviders
 		internal static ConstructorInfo GetConstructorPortable(this Type type, params Type[] types)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetTypeInfo().DeclaredConstructors.FirstOrDefault
-                       (constructor =>
-                            constructor.GetParameters()
-                                       .Select(parameter => parameter.ParameterType)
-                                       .SequenceEqual(types));
+			return type.GetTypeInfo().DeclaredConstructors.FirstOrDefault
+					   (constructor =>
+							constructor.GetParameters()
+									   .Select(parameter => parameter.ParameterType)
+									   .SequenceEqual(types));
 #else
 			return type.GetConstructor(types);
 #endif
@@ -2296,7 +2296,7 @@ namespace RawRabbit.Logging.LogProviders
 		internal static MethodInfo GetMethodPortable(this Type type, string name)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetRuntimeMethods().SingleOrDefault(m => m.Name == name);
+			return type.GetRuntimeMethods().SingleOrDefault(m => m.Name == name);
 #else
 			return type.GetMethod(name);
 #endif
@@ -2305,7 +2305,7 @@ namespace RawRabbit.Logging.LogProviders
 		internal static MethodInfo GetMethodPortable(this Type type, string name, params Type[] types)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetRuntimeMethod(name, types);
+			return type.GetRuntimeMethod(name, types);
 #else
 			return type.GetMethod(name, types);
 #endif
@@ -2314,7 +2314,7 @@ namespace RawRabbit.Logging.LogProviders
 		internal static PropertyInfo GetPropertyPortable(this Type type, string name)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetRuntimeProperty(name);
+			return type.GetRuntimeProperty(name);
 #else
 			return type.GetProperty(name);
 #endif
@@ -2323,7 +2323,7 @@ namespace RawRabbit.Logging.LogProviders
 		internal static IEnumerable<FieldInfo> GetFieldsPortable(this Type type)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetRuntimeFields();
+			return type.GetRuntimeFields();
 #else
 			return type.GetFields();
 #endif
@@ -2332,22 +2332,22 @@ namespace RawRabbit.Logging.LogProviders
 		internal static Type GetBaseTypePortable(this Type type)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetTypeInfo().BaseType;
+			return type.GetTypeInfo().BaseType;
 #else
 			return type.BaseType;
 #endif
 		}
 
 #if LIBLOG_PORTABLE
-        internal static MethodInfo GetGetMethod(this PropertyInfo propertyInfo)
-        {
-            return propertyInfo.GetMethod;
-        }
+		internal static MethodInfo GetGetMethod(this PropertyInfo propertyInfo)
+		{
+			return propertyInfo.GetMethod;
+		}
 
-        internal static MethodInfo GetSetMethod(this PropertyInfo propertyInfo)
-        {
-            return propertyInfo.SetMethod;
-        }
+		internal static MethodInfo GetSetMethod(this PropertyInfo propertyInfo)
+		{
+			return propertyInfo.SetMethod;
+		}
 #endif
 
 #if !LIBLOG_PORTABLE
@@ -2360,7 +2360,7 @@ namespace RawRabbit.Logging.LogProviders
 		internal static Assembly GetAssemblyPortable(this Type type)
 		{
 #if LIBLOG_PORTABLE
-            return type.GetTypeInfo().Assembly;
+			return type.GetTypeInfo().Assembly;
 #else
 			return type.Assembly;
 #endif

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Enrichers.MessageContext.Subscribe;
 using RawRabbit.Operations.Subscribe.Context;
 using RawRabbit.Operations.Subscribe.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {

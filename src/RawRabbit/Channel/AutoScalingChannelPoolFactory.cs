@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RawRabbit.Channel.Abstraction;
+using System;
 using System.Collections.Concurrent;
-using RawRabbit.Channel.Abstraction;
 
 namespace RawRabbit.Channel
 {

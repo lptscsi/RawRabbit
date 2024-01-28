@@ -15,7 +15,7 @@ namespace RawRabbit.Exceptions
 		public MessageHandlerException()
 		{ }
 
-		public MessageHandlerException(string message) :base(message)
+		public MessageHandlerException(string message) : base(message)
 		{ }
 
 		public MessageHandlerException(string message, Exception inner)

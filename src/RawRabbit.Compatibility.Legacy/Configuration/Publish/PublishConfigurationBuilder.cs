@@ -1,8 +1,8 @@
-using System;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Compatibility.Legacy.Configuration.Exchange;
 using RawRabbit.Compatibility.Legacy.Configuration.Request;
+using RawRabbit.Configuration;
+using System;
 
 namespace RawRabbit.Compatibility.Legacy.Configuration.Publish
 {
@@ -10,7 +10,7 @@ namespace RawRabbit.Compatibility.Legacy.Configuration.Publish
 	{
 		private readonly ExchangeConfigurationBuilder _exchange;
 		private string _routingKey;
-		private Action<IBasicProperties> _properties;
+		private Action<BasicPropertiesConfiguration> _properties;
 		private const string _oneOrMoreWords = "#";
 		private EventHandler<BasicReturnEventArgs> _basicReturn;
 
@@ -18,11 +18,11 @@ namespace RawRabbit.Compatibility.Legacy.Configuration.Publish
 		{
 			Exchange = _exchange.Configuration,
 			RoutingKey = _routingKey,
-			PropertyModifier = _properties ?? (b => {}),
+			PropertyModifier = _properties ?? (b => { }),
 			BasicReturn = _basicReturn
 		};
 
-		public PublishConfigurationBuilder(ExchangeConfiguration defaultExchange = null, string routingKey =null)
+		public PublishConfigurationBuilder(ExchangeConfiguration defaultExchange = null, string routingKey = null)
 		{
 			_exchange = new ExchangeConfigurationBuilder(defaultExchange);
 			_routingKey = routingKey ?? _oneOrMoreWords;
@@ -46,7 +46,7 @@ namespace RawRabbit.Compatibility.Legacy.Configuration.Publish
 			return this;
 		}
 
-		public IPublishConfigurationBuilder WithProperties(Action<IBasicProperties> properties)
+		public IPublishConfigurationBuilder WithProperties(Action<BasicPropertiesConfiguration> properties)
 		{
 			_properties = properties;
 			return this;

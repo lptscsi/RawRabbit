@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -19,7 +19,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.QueueDeclare);
 			return policy.ExecuteAsync(
-				action: ct => base.DeclareQueueAsync(queue, context, ct),
+				action: (ctx, token) => base.DeclareQueueAsync(queue, context, token),
 				cancellationToken: token,
 				contextData: new Dictionary<string, object>
 				{

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Enrichers.MessageContext.Respond;
 using RawRabbit.Operations.Respond.Acknowledgement;
 using RawRabbit.Operations.Respond.Context;
@@ -9,6 +6,9 @@ using RawRabbit.Operations.Respond.Core;
 using RawRabbit.Operations.Respond.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -27,7 +27,7 @@ namespace RawRabbit
 								BodyTypeFunc = context => context.GetRequestMessageType()
 							})
 							.Use<StageMarkerMiddleware>(StageMarkerOptions.For(RespondStage.MessageDeserialized))
-							.Use<HandlerInvocationMiddleware >(ResponseHandlerOptionFactory.Create(new HandlerInvocationOptions
+							.Use<HandlerInvocationMiddleware>(ResponseHandlerOptionFactory.Create(new HandlerInvocationOptions
 							{
 								HandlerArgsFunc = context => new[] { context.GetMessage(), context.GetMessageContext() }
 							}))
@@ -68,7 +68,7 @@ namespace RawRabbit
 			return client
 				.InvokeAsync(RespondPipe, ctx =>
 				{
-					Func<object[], Task<Acknowledgement>> genericHandler = args => (handler((TRequest) args[0], (TMessageContext) args[1])
+					Func<object[], Task<Acknowledgement>> genericHandler = args => (handler((TRequest)args[0], (TMessageContext)args[1])
 						.ContinueWith(tResponse =>
 						{
 							if (tResponse.IsFaulted)

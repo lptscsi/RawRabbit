@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Enrichers.MessageContext.Dependencies;
+﻿using RawRabbit.Enrichers.MessageContext.Dependencies;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.MessageContext.Middleware
 {

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Polly;
+using RabbitMQ.Client;
+using RawRabbit.Configuration;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Polly;
-using RabbitMQ.Client;
-using RawRabbit.Configuration;
 
 namespace RawRabbit.Enrichers.Polly.Services
 {
@@ -25,7 +24,7 @@ namespace RawRabbit.Enrichers.Polly.Services
 		public override Task ConnectAsync(CancellationToken token = default(CancellationToken))
 		{
 			return ConnectPolicy.ExecuteAsync(
-				action: ct => base.ConnectAsync(ct),
+				action: (ctx, token) => base.ConnectAsync(token),
 				contextData: new Dictionary<string, object>
 				{
 					[RetryKey.ConnectionFactory] = ConnectionFactory,
@@ -38,7 +37,7 @@ namespace RawRabbit.Enrichers.Polly.Services
 		protected override Task<IConnection> GetConnectionAsync(CancellationToken token = default(CancellationToken))
 		{
 			return GetConnectionPolicy.ExecuteAsync(
-				action: ct => base.GetConnectionAsync(ct),
+				action: (ctx, token) => base.GetConnectionAsync(token),
 				contextData: new Dictionary<string, object>
 				{
 					[RetryKey.ConnectionFactory] = ConnectionFactory,
@@ -51,7 +50,7 @@ namespace RawRabbit.Enrichers.Polly.Services
 		public override Task<IModel> CreateChannelAsync(CancellationToken token = default(CancellationToken))
 		{
 			return CreateChannelPolicy.ExecuteAsync(
-				action: ct => base.CreateChannelAsync(ct),
+				action: (ctx, token) => base.CreateChannelAsync(token),
 				contextData: new Dictionary<string, object>
 				{
 					[RetryKey.ConnectionFactory] = ConnectionFactory,

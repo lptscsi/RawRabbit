@@ -1,8 +1,8 @@
-﻿using System;
-using RawRabbit.Channel.Abstraction;
+﻿using RawRabbit.Channel.Abstraction;
 using RawRabbit.Instantiation;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
 
 namespace RawRabbit
 {
@@ -10,7 +10,7 @@ namespace RawRabbit
 	{
 		public static IClientBuilder UsePolly(this IClientBuilder builder, Action<IPipeContext> action)
 		{
-			return UsePolly(builder, new PolicyOptions {PolicyAction = action});
+			return UsePolly(builder, new PolicyOptions { PolicyAction = action });
 		}
 
 		public static IClientBuilder UsePolly(this IClientBuilder builder, PolicyOptions options)

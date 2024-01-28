@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Common;
@@ -11,6 +8,9 @@ using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Publisher;
 using RawRabbit.Configuration.Queue;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using ISubscription = RawRabbit.Subscription.ISubscription;
 
 namespace RawRabbit.Pipe
@@ -97,9 +97,10 @@ namespace RawRabbit.Pipe
 			return context.Get<IModel>(PipeKey.TransientChannel);
 		}
 
-		public static IBasicProperties GetBasicProperties(this IPipeContext context)
+		public static BasicPropertiesConfiguration GetBasicProperties(this IPipeContext context)
 		{
-			return context.Get<IBasicProperties>(PipeKey.BasicProperties);
+			BasicPropertiesConfiguration basicProperties = context.Get<BasicPropertiesConfiguration>(PipeKey.BasicProperties);
+			return basicProperties;
 		}
 
 		public static BasicDeliverEventArgs GetDeliveryEventArgs(this IPipeContext context)

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Framing.Impl;
-using RawRabbit.Configuration.Exchange;
+﻿using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Publisher;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Attributes.Middleware
 {
@@ -24,8 +23,8 @@ namespace RawRabbit.Enrichers.Attributes.Middleware
 
 		public ProduceAttributeMiddleware(ProduceAttributeOptions options = null)
 		{
-				PublishConfigFunc = options?.PublishConfigFunc ?? (context => context.GetPublishConfiguration());
-				MessageType = options?.MessageTypeFunc ?? (context => context.GetMessageType());
+			PublishConfigFunc = options?.PublishConfigFunc ?? (context => context.GetPublishConfiguration());
+			MessageType = options?.MessageTypeFunc ?? (context => context.GetMessageType());
 		}
 
 		public override Task InvokeAsync(IPipeContext context, CancellationToken token = new CancellationToken())
@@ -73,7 +72,7 @@ namespace RawRabbit.Enrichers.Attributes.Middleware
 			}
 			if (attribute.NullableAutoDelete.HasValue)
 			{
-				config.Exchange.AutoDelete= attribute.NullableAutoDelete.Value;
+				config.Exchange.AutoDelete = attribute.NullableAutoDelete.Value;
 			}
 			if (attribute.Type != ExchangeType.Unknown)
 			{

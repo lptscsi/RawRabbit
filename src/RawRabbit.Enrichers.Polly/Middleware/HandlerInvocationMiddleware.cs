@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using RawRabbit.Pipe;
+using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Pipe;
-using RawRabbit.Pipe.Middleware;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -15,7 +15,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.HandlerInvocation);
 			return policy.ExecuteAsync(
-				action: ct => base.InvokeMessageHandler(context, ct),
+				action: (ctx, token) => base.InvokeMessageHandler(context, token),
 				cancellationToken: token,
 				contextData: new Dictionary<string, object>
 				{

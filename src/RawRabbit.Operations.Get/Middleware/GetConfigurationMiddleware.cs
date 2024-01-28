@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Configuration.Get;
+using RawRabbit.Pipe;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Configuration.Get;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.Get.Middleware
 {

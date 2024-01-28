@@ -1,10 +1,10 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Channel.Abstraction;
+using RawRabbit.Logging;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel.Abstraction;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Channel
 {
@@ -42,7 +42,7 @@ namespace RawRabbit.Channel
 		public override async Task<IModel> GetAsync(CancellationToken ct = default(CancellationToken))
 		{
 			var activeChannels = GetActiveChannelCount();
-			if (activeChannels  < _options.MinimunPoolSize)
+			if (activeChannels < _options.MinimunPoolSize)
 			{
 				_logger.Debug("Pool currently has {channelCount}, which is lower than the minimal pool size {minimalPoolSize}. Creating channels.", activeChannels, _options.MinimunPoolSize);
 				var delta = _options.MinimunPoolSize - Pool.Count;

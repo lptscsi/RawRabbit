@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -11,7 +11,7 @@ namespace RawRabbit.Pipe.Middleware
 	{
 		public Func<IPipeContext, ExchangeDeclaration> ExchangeFunc { get; set; }
 		public bool ThrowOnFail { get; set; }
-		public  Func<IPipeContext, bool> ThrowOnFailFunc { get; set; }
+		public Func<IPipeContext, bool> ThrowOnFailFunc { get; set; }
 	}
 
 	public class ExchangeDeclareMiddleware : Middleware

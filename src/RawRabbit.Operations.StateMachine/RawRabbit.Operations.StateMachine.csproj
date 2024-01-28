@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
     <Description>Integrate RawRabbit with the Stateless StateMachine.</Description>
     <AssemblyTitle>RawRabbit.Operations.StateMachine</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman;enrique-avalon</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
     <AssemblyName>RawRabbit.Operations.StateMachine</AssemblyName>
     <PackageId>RawRabbit.Operations.StateMachine</PackageId>
     <PackageTags>rabbitmq;rawrabbit;operation;statemachine;stateless</PackageTags>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Stateless" Version="3.0.0" />
+    <PackageReference Include="Stateless" Version="5.15.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">

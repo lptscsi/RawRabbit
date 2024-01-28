@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Exceptions;
 using RawRabbit.Logging;
 using RawRabbit.Operations.Publish.Context;
 using RawRabbit.Pipe;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Publish.Middleware
 {
@@ -176,7 +176,7 @@ namespace RawRabbit
 	{
 		public static IPublishContext UsePublishAcknowledge(this IPublishContext context, TimeSpan timeout)
 		{
-			context.Properties.TryAdd(Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
+			DictionaryExtensions.TryAdd(context.Properties, Operations.Publish.PublishKey.PublishAcknowledgeTimeout, timeout);
 			return context;
 		}
 

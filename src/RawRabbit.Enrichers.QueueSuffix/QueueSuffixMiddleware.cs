@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Consume;
+﻿using RawRabbit.Configuration.Consume;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.QueueSuffix
 {

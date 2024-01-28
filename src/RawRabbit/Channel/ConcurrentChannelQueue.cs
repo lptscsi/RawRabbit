@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
 
 namespace RawRabbit.Channel
 {

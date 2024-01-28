@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Serialization;
+using System;
 using System.Linq;
 using System.Reflection;
-using RawRabbit.Serialization;
 using ZeroFormatter;
 
 namespace RawRabbit.Enrichers.ZeroFormatter

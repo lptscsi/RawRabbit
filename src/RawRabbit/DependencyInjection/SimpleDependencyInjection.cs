@@ -34,7 +34,7 @@ namespace RawRabbit.DependencyInjection
 		public IDependencyRegister AddSingleton<TService, TImplementation>(Func<IDependencyResolver, TService> instanceCreator) where TImplementation : class, TService where TService : class
 		{
 			var lazy = new Lazy<TImplementation>(() => (TImplementation)instanceCreator(this));
-			AddTransient<TService,TImplementation>(resolver => lazy.Value);
+			AddTransient<TService, TImplementation>(resolver => lazy.Value);
 			return this;
 		}
 

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Consumer;
+﻿using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Publisher;
 using RawRabbit.Operations.Request.Configuration;
 using RawRabbit.Operations.Request.Configuration.Abstraction;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Pipe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Request.Middleware
 {

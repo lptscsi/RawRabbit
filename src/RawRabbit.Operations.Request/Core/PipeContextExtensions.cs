@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Framing.Impl;
+﻿using RabbitMQ.Client;
 using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Operations.Request.Configuration;
-using RawRabbit.Operations.Request.Configuration.Abstraction;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit.Operations.Request.Core
 {

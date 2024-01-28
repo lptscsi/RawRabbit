@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Consume;
+﻿using RawRabbit.Configuration.Consume;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -13,7 +13,7 @@ namespace RawRabbit
 			.Use<ConsumeConfigurationMiddleware>()
 			.Use<QueueBindMiddleware>();
 
-		public static Task BindQueueAsync(this IBusClient client, string queueName, string exchangeName, string routingKey, CancellationToken ct = default (CancellationToken))
+		public static Task BindQueueAsync(this IBusClient client, string queueName, string exchangeName, string routingKey, CancellationToken ct = default(CancellationToken))
 		{
 			return client.InvokeAsync(BindQueueAction, cfg =>
 			{

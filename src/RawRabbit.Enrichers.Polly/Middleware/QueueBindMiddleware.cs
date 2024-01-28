@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -16,7 +16,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.QueueBind);
 			return policy.ExecuteAsync(
-				action: ct => base.BindQueueAsync(queue, exchange, routingKey, context, ct),
+				action: (ctx, token) => base.BindQueueAsync(queue, exchange, routingKey, context, token),
 				cancellationToken: token,
 				contextData: new Dictionary<string, object>
 				{

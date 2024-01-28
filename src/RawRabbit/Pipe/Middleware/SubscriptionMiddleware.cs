@@ -1,15 +1,15 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Subscription;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Subscription;
 
 namespace RawRabbit.Pipe.Middleware
 {
 	public class SubscriptionOptions
 	{
 		public Func<IPipeContext, string> QueueNameFunc { get; set; }
-		public Func<IPipeContext, IBasicConsumer> ConsumeFunc{ get; set; }
+		public Func<IPipeContext, IBasicConsumer> ConsumeFunc { get; set; }
 		public Action<IPipeContext, ISubscription> SaveInContext { get; set; }
 	}
 

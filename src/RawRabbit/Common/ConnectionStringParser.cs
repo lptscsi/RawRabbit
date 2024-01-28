@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Configuration;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using RawRabbit.Configuration;
 
 namespace RawRabbit.Common
 {
@@ -49,7 +49,7 @@ namespace RawRabbit.Common
 					throw new ArgumentException($"No configuration property named '{name}'");
 				}
 
-				if (propertyInfo.PropertyType == typeof (TimeSpan))
+				if (propertyInfo.PropertyType == typeof(TimeSpan))
 				{
 					var convertedValue = TimeSpan.FromSeconds(int.Parse(val));
 					propertyInfo.SetValue(cfg, convertedValue, null);

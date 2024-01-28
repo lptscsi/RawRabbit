@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Logging;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Consumer
 {
@@ -122,25 +123,29 @@ namespace RawRabbit.Consumer
 
 	public static class ConsumerExtensions
 	{
-		public static Task<string> CancelAsync(this IBasicConsumer consumer, CancellationToken token = default(CancellationToken))
+		public static Task<string[]> CancelAsync(this IBasicConsumer consumer, CancellationToken token = default(CancellationToken))
 		{
 			var eventConsumer = consumer as EventingBasicConsumer;
 			if (eventConsumer == null)
 			{
 				throw new NotSupportedException("Can only cancellation EventBasicConsumer");
 			}
-			var cancelTcs = new TaskCompletionSource<string>();
+			var cancelTcs = new TaskCompletionSource<string[]>();
 			token.Register(() => cancelTcs.TrySetCanceled());
-			var tag = eventConsumer.ConsumerTag;
+			string[] tags = eventConsumer.ConsumerTags;
 			consumer.ConsumerCancelled += (sender, args) =>
 			{
-				if (args.ConsumerTag != tag)
+				string[] cancelledTags = args.ConsumerTags.Intersect(tags).ToArray();
+				if (!cancelledTags.Any())
 				{
 					return;
 				}
-				cancelTcs.TrySetResult(args.ConsumerTag);
+				cancelTcs.TrySetResult(args.ConsumerTags);
 			};
-			consumer.Model.BasicCancel(eventConsumer.ConsumerTag);
+			foreach (string tag in eventConsumer.ConsumerTags)
+			{
+				consumer.Model.BasicCancel(tag);
+			}
 			return cancelTcs.Task;
 		}
 

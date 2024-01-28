@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Publisher;
+﻿using RawRabbit.Configuration.Publisher;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Publish.Middleware
 {

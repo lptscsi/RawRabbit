@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Channel.Abstraction;
+﻿using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using IModel = RabbitMQ.Client.IModel;
 
 namespace RawRabbit.Operations.Subscribe.Middleware
@@ -31,12 +31,12 @@ namespace RawRabbit.Operations.Subscribe.Middleware
 			ITopologyProvider provider,
 			INamingConventions conventions,
 			SubscriptionExceptionOptions options)
-			: base(factory, new ExceptionHandlingOptions {InnerPipe = options.InnerPipe})
+			: base(factory, new ExceptionHandlingOptions { InnerPipe = options.InnerPipe })
 		{
 			_channelFactory = channelFactory;
 			_provider = provider;
 			_conventions = conventions;
-			ChannelFunc = options?.ChannelFunc ?? ((c, f) =>f.CreateChannelAsync());
+			ChannelFunc = options?.ChannelFunc ?? ((c, f) => f.CreateChannelAsync());
 		}
 
 		protected override async Task OnExceptionAsync(Exception exception, IPipeContext context, CancellationToken token)

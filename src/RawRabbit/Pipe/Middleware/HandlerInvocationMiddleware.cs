@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Common;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Common;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -20,7 +20,7 @@ namespace RawRabbit.Pipe.Middleware
 
 		public HandlerInvocationMiddleware(HandlerInvocationOptions options = null)
 		{
-			HandlerArgsFunc = options?.HandlerArgsFunc ?? (context => context.GetMessageHandlerArgs()) ;
+			HandlerArgsFunc = options?.HandlerArgsFunc ?? (context => context.GetMessageHandlerArgs());
 			MessageHandlerFunc = options?.MessageHandlerFunc ?? (context => context.GetMessageHandler());
 			PostInvokeAction = options?.PostInvokeAction;
 		}

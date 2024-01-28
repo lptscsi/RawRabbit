@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Features.ResolveAnything;
-using RawRabbit.DependencyInjection;
 using RawRabbit.Instantiation;
 
 namespace RawRabbit.DependencyInjection.Autofac

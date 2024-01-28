@@ -1,7 +1,7 @@
-﻿using System;
-using RawRabbit.Configuration.Publisher;
+﻿using RawRabbit.Configuration.Publisher;
 using RawRabbit.Operations.Publish.Context;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit
 {

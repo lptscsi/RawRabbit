@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Common;
+using RawRabbit.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Common;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Pipe.Middleware
 {

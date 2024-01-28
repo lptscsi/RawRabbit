@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Logging;
 using RawRabbit.Serialization;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -30,7 +29,7 @@ namespace RawRabbit.Pipe.Middleware
 			DeliveryArgsFunc = options?.DeliveryArgsFunc ?? (context => context.GetDeliveryEventArgs());
 			HeaderKeyFunc = options?.HeaderKeyFunc;
 			ContextSaveAction = options?.ContextSaveAction ?? ((context, item) => context.Properties.TryAdd(HeaderKeyFunc(context), item));
-			HeaderTypeFunc = options?.HeaderTypeFunc ?? (context =>typeof(object)) ;
+			HeaderTypeFunc = options?.HeaderTypeFunc ?? (context => typeof(object));
 			Serializer = serializer;
 		}
 

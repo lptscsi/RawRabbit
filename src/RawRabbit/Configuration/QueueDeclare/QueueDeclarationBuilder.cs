@@ -4,7 +4,7 @@ namespace RawRabbit.Configuration.Queue
 {
 	public class QueueDeclarationBuilder : IQueueDeclarationBuilder
 	{
-		public QueueDeclaration Declaration { get;}
+		public QueueDeclaration Declaration { get; }
 
 		public QueueDeclarationBuilder(QueueDeclaration initialQueue = null)
 		{

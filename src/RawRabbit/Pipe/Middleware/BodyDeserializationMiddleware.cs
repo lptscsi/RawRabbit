@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RawRabbit.Logging;
+using RawRabbit.Serialization;
+using System;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Logging;
-using RawRabbit.Serialization;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -11,8 +11,8 @@ namespace RawRabbit.Pipe.Middleware
 	{
 		public Func<IPipeContext, Type> BodyTypeFunc { get; set; }
 		public Func<IPipeContext, string> BodyContentTypeFunc { get; set; }
-		public Func<IPipeContext, bool> ActivateContentTypeCheck{ get; set; }
-		public Func<IPipeContext, byte[]> BodyFunc { get; set; }
+		public Func<IPipeContext, bool> ActivateContentTypeCheck { get; set; }
+		public Func<IPipeContext, ReadOnlyMemory<byte>> BodyFunc { get; set; }
 		public Action<IPipeContext, object> PersistAction { get; set; }
 	}
 
@@ -20,7 +20,7 @@ namespace RawRabbit.Pipe.Middleware
 	{
 		protected readonly ISerializer Serializer;
 		protected Func<IPipeContext, Type> MessageTypeFunc;
-		protected Func<IPipeContext, byte[]> BodyBytesFunc;
+		protected Func<IPipeContext, ReadOnlyMemory<byte>> BodyBytesFunc;
 		protected Func<IPipeContext, string> BodyContentTypeFunc { get; set; }
 		protected Func<IPipeContext, bool> ActivateContentTypeCheck { get; set; }
 		protected Action<IPipeContext, object> PersistAction;
@@ -30,7 +30,7 @@ namespace RawRabbit.Pipe.Middleware
 		{
 			Serializer = serializer;
 			MessageTypeFunc = options?.BodyTypeFunc ?? (context => context.GetMessageType());
-			BodyBytesFunc = options?.BodyFunc ?? (context =>context.GetDeliveryEventArgs()?.Body);
+			BodyBytesFunc = options?.BodyFunc ?? (Func<IPipeContext, ReadOnlyMemory<byte>>)(context => context.GetDeliveryEventArgs()?.Body ?? (new byte[0]).AsMemory());
 			PersistAction = options?.PersistAction ?? ((context, msg) => context.Properties.TryAdd(PipeKey.Message, msg));
 			BodyContentTypeFunc = options?.BodyContentTypeFunc ?? (context => context.GetDeliveryEventArgs()?.BasicProperties.ContentType);
 			ActivateContentTypeCheck = options?.ActivateContentTypeCheck ?? (context => context.GetContentTypeCheckActivated());
@@ -75,7 +75,7 @@ namespace RawRabbit.Pipe.Middleware
 		{
 			var bodyBytes = GetBodyBytes(context);
 			var messageType = GetMessageType(context);
-			return Serializer.Deserialize(messageType, bodyBytes);
+			return Serializer.Deserialize(messageType, bodyBytes.ToArray());
 		}
 
 		protected virtual Type GetMessageType(IPipeContext context)
@@ -88,13 +88,9 @@ namespace RawRabbit.Pipe.Middleware
 			return msgType;
 		}
 
-		protected virtual byte[] GetBodyBytes(IPipeContext context)
+		protected virtual ReadOnlyMemory<byte> GetBodyBytes(IPipeContext context)
 		{
-			var bodyBytes = BodyBytesFunc(context);
-			if (bodyBytes == null)
-			{
-				_logger.Warn("Unable to find Body (bytes) in Pipe context");
-			}
+			ReadOnlyMemory<byte> bodyBytes = BodyBytesFunc(context);
 			return bodyBytes;
 		}
 

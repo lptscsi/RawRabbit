@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Operations.Respond.Configuration;
 using RawRabbit.Pipe;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Respond.Core
 {

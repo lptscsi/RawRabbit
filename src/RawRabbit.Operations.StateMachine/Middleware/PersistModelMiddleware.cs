@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Operations.StateMachine.Core;
+﻿using RawRabbit.Operations.StateMachine.Core;
 using RawRabbit.Pipe;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.StateMachine.Middleware
 {

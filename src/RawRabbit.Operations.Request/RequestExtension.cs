@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.Operations.Request.Context;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Operations.Request.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -19,9 +19,9 @@ namespace RawRabbit
 				.Use<RequestConfigurationMiddleware>()
 				.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.PublishConfigured))
 				.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.ConsumeConfigured))
-				.Use<QueueDeclareMiddleware>(new QueueDeclareOptions {QueueDeclarationFunc = context => context.GetResponseQueue()})
-				.Use<ExchangeDeclareMiddleware>(new ExchangeDeclareOptions {ExchangeFunc = context => context.GetRequestExchange()})
-				.Use<ExchangeDeclareMiddleware>(new ExchangeDeclareOptions {ExchangeFunc = context => context.GetResponseExchange()})
+				.Use<QueueDeclareMiddleware>(new QueueDeclareOptions { QueueDeclarationFunc = context => context.GetResponseQueue() })
+				.Use<ExchangeDeclareMiddleware>(new ExchangeDeclareOptions { ExchangeFunc = context => context.GetRequestExchange() })
+				.Use<ExchangeDeclareMiddleware>(new ExchangeDeclareOptions { ExchangeFunc = context => context.GetResponseExchange() })
 				.Use<QueueBindMiddleware>(new QueueBindOptions
 				{
 					ExchangeNameFunc = context => context.GetConsumeConfiguration()?.ExchangeName,

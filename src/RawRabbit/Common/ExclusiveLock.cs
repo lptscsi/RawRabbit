@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Common
 {
@@ -29,7 +29,7 @@ namespace RawRabbit.Common
 		public Task<object> AquireAsync(object obj, CancellationToken token = default(CancellationToken))
 		{
 			var theLock = _lockDictionary.GetOrAdd(obj, o => new object());
-			var semaphore = _semaphoreDictionary.GetOrAdd(theLock, o => new SemaphoreSlim(1,1));
+			var semaphore = _semaphoreDictionary.GetOrAdd(theLock, o => new SemaphoreSlim(1, 1));
 			return semaphore
 				.WaitAsync(token)
 				.ContinueWith(t => theLock, token);

@@ -1,7 +1,7 @@
-﻿using System;
-using RawRabbit.Enrichers.Attributes.Middleware;
+﻿using RawRabbit.Enrichers.Attributes.Middleware;
 using RawRabbit.Instantiation;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit
 {

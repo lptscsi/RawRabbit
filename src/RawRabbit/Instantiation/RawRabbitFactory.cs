@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.DependencyInjection;
+﻿using RawRabbit.DependencyInjection;
+using System;
 
 namespace RawRabbit.Instantiation
 {

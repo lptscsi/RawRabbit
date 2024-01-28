@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.Configuration.Exchange;
+using RawRabbit.Pipe;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Configuration.Exchange;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.Tools.Middleware
 {
@@ -22,7 +22,7 @@ namespace RawRabbit.Operations.Tools.Middleware
 		{
 			CfgFactory = cfgFactory;
 			ExchangeDeclarationFunc = options?.ExchangeDeclarationFunc ?? (ctx => ctx.GetExchangeDeclaration());
-			SaveToContextAction = options?.SaveToContextAction ?? ((ctx, d) => ctx.Properties.TryAdd(PipeKey.ExchangeDeclaration, d)); 
+			SaveToContextAction = options?.SaveToContextAction ?? ((ctx, d) => ctx.Properties.TryAdd(PipeKey.ExchangeDeclaration, d));
 		}
 
 		public override Task InvokeAsync(IPipeContext context, CancellationToken token = default(CancellationToken))

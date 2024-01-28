@@ -1,5 +1,4 @@
-﻿using System;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Compatibility.Legacy.Configuration.Exchange;
 using RawRabbit.Compatibility.Legacy.Configuration.Publish;
 using RawRabbit.Compatibility.Legacy.Configuration.Queue;
@@ -7,6 +6,7 @@ using RawRabbit.Compatibility.Legacy.Configuration.Request;
 using RawRabbit.Compatibility.Legacy.Configuration.Respond;
 using RawRabbit.Compatibility.Legacy.Configuration.Subscribe;
 using RawRabbit.Configuration;
+using System;
 
 namespace RawRabbit.Compatibility.Legacy.Configuration
 {

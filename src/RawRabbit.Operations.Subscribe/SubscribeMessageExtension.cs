@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Operations.Subscribe.Context;
 using RawRabbit.Operations.Subscribe.Middleware;
 using RawRabbit.Operations.Subscribe.Stages;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -14,10 +14,13 @@ namespace RawRabbit
 	{
 		public static readonly Action<IPipeBuilder> ConsumePipe = pipe => pipe
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.MessageReceived))
-			.Use<SubscriptionExceptionMiddleware>(new SubscriptionExceptionOptions { InnerPipe = p => p
+			.Use<SubscriptionExceptionMiddleware>(new SubscriptionExceptionOptions
+			{
+				InnerPipe = p => p
 				.Use<BodyDeserializationMiddleware>()
 				.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.MessageDeserialized))
-				.Use<SubscribeInvocationMiddleware>()})
+				.Use<SubscribeInvocationMiddleware>()
+			})
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.HandlerInvoked))
 			.Use<ExplicitAckMiddleware>()
 			.Use<StageMarkerMiddleware>(StageMarkerOptions.For(StageMarker.MessageAcknowledged));
@@ -55,7 +58,7 @@ namespace RawRabbit
 				SubscribePipe,
 				ctx =>
 				{
-					Func<object[], Task<Acknowledgement>> genericHandler = args => subscribeMethod((TMessage) args[0]);
+					Func<object[], Task<Acknowledgement>> genericHandler = args => subscribeMethod((TMessage)args[0]);
 
 					ctx.Properties.TryAdd(PipeKey.MessageType, typeof(TMessage));
 					ctx.Properties.TryAdd(PipeKey.MessageHandler, genericHandler);
@@ -63,4 +66,4 @@ namespace RawRabbit
 				}, ct);
 		}
 	}
-}	
+}

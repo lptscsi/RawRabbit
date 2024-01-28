@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Consumer;
+﻿using RawRabbit.Configuration.Consumer;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Subscribe.Middleware
 {
@@ -26,7 +26,7 @@ namespace RawRabbit.Operations.Subscribe.Middleware
 		public SubscriptionConfigurationMiddleware(IConsumerConfigurationFactory configFactory, SubscriptionConfigurationOptions options = null)
 		{
 			ConfigFactory = configFactory;
-			MessageTypeFunc = options?.MessageTypeFunc ?? (context => context.GetMessageType()) ;
+			MessageTypeFunc = options?.MessageTypeFunc ?? (context => context.GetMessageType());
 			ConfigurationFunc = options?.ConfigFunc;
 			ConfigActionFunc = options?.ConfigActionFunc ?? (context => context.Get<Action<IConsumerConfigurationBuilder>>(PipeKey.ConfigurationAction));
 		}

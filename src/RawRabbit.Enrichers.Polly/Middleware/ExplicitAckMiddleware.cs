@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using RawRabbit.Channel.Abstraction;
 
 namespace RawRabbit.Enrichers.Polly.Middleware
 {
@@ -16,7 +16,7 @@ namespace RawRabbit.Enrichers.Polly.Middleware
 		{
 			var policy = context.GetPolicy(PolicyKeys.MessageAcknowledge);
 			var result = await policy.ExecuteAsync(
-				action: () => Task.FromResult(base.AcknowledgeMessageAsync(context)),
+				action: (ctx) => Task.FromResult(base.AcknowledgeMessageAsync(context)),
 				contextData: new Dictionary<string, object>
 				{
 					[RetryKey.PipeContext] = context

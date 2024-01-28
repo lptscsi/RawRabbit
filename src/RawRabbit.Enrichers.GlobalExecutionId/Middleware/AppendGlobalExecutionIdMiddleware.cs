@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Enrichers.GlobalExecutionId.Dependencies;
+﻿using RawRabbit.Enrichers.GlobalExecutionId.Dependencies;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.GlobalExecutionId.Middleware
 {
@@ -55,7 +55,7 @@ namespace RawRabbit.Enrichers.GlobalExecutionId.Middleware
 
 		protected virtual string CreateExecutionId(IPipeContext context)
 		{
-			return  Guid.NewGuid().ToString();
+			return Guid.NewGuid().ToString();
 		}
 
 		protected virtual string GetExecutionIdFromProcess()

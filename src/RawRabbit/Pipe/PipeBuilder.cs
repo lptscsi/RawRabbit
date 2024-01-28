@@ -1,10 +1,10 @@
+using RawRabbit.DependencyInjection;
+using RawRabbit.Pipe.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using RawRabbit.DependencyInjection;
-using RawRabbit.Pipe.Middleware;
 
 namespace RawRabbit.Pipe
 {
@@ -12,8 +12,8 @@ namespace RawRabbit.Pipe
 	{
 		IPipeBuilder Use(Func<IPipeContext, Func<Task>, Task> handler);
 		IPipeBuilder Use<TMiddleWare>(params object[] args) where TMiddleWare : Middleware.Middleware;
-		IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, Func<object[], object[]> argsFunc = null) where TCurrent: Middleware.Middleware where TNew : Middleware.Middleware;
-		IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, params object[] args) where TCurrent: Middleware.Middleware where TNew : Middleware.Middleware;
+		IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, Func<object[], object[]> argsFunc = null) where TCurrent : Middleware.Middleware where TNew : Middleware.Middleware;
+		IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, params object[] args) where TCurrent : Middleware.Middleware where TNew : Middleware.Middleware;
 		IPipeBuilder Remove<TMiddleware>(Predicate<object[]> predicate = null) where TMiddleware : Middleware.Middleware;
 	}
 
@@ -31,7 +31,7 @@ namespace RawRabbit.Pipe
 		public PipeBuilder(IDependencyResolver resolver)
 		{
 			_resolver = resolver;
-			_additional = _resolver.GetService<Action<IPipeBuilder>>() ?? (builder => {});
+			_additional = _resolver.GetService<Action<IPipeBuilder>>() ?? (builder => { });
 			Pipe = new List<MiddlewareInfo>();
 		}
 
@@ -54,7 +54,8 @@ namespace RawRabbit.Pipe
 		public IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, params object[] args) where TCurrent : Middleware.Middleware where TNew : Middleware.Middleware
 		{
 			return Replace<TCurrent, TNew>(predicate, oldArgs => args);
-;		}
+			;
+		}
 
 		public IPipeBuilder Replace<TCurrent, TNew>(Predicate<object[]> predicate = null, Func<object[], object[]> argsFunc = null) where TCurrent : Middleware.Middleware where TNew : Middleware.Middleware
 		{

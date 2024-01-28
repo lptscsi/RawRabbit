@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
+using System.Collections.Generic;
 
 namespace RawRabbit.Compatibility.Legacy.Configuration.Queue
 {
@@ -9,7 +9,7 @@ namespace RawRabbit.Compatibility.Legacy.Configuration.Queue
 		{
 			get
 			{
-				var fullQueueName =  string.IsNullOrEmpty(NameSuffix)
+				var fullQueueName = string.IsNullOrEmpty(NameSuffix)
 					? QueueName
 					: $"{QueueName}_{NameSuffix}";
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using RawRabbit.Operations.MessageSequence.Model;
+﻿using RawRabbit.Operations.MessageSequence.Model;
 using RawRabbit.Operations.StateMachine;
+using System.Collections.Generic;
 
 namespace RawRabbit.Operations.MessageSequence.StateMachine
 {

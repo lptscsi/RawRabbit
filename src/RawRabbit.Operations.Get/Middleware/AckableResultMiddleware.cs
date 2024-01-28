@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Operations.Get.Model;
 using RawRabbit.Pipe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Get.Middleware
 {

@@ -7,7 +7,7 @@ namespace RawRabbit.Operations.Subscribe.Middleware
 	{
 		public SubscribeInvocationMiddleware() : base(new HandlerInvocationOptions
 		{
-			HandlerArgsFunc = context => new []{ context.GetMessage()}
+			HandlerArgsFunc = context => new[] { context.GetMessage() }
 		})
 		{ }
 	}

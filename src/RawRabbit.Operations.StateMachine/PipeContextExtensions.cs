@@ -1,6 +1,6 @@
-﻿using System;
-using RawRabbit.Operations.StateMachine.Context;
+﻿using RawRabbit.Operations.StateMachine.Context;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit.Operations.StateMachine
 {
@@ -39,7 +39,7 @@ namespace RawRabbit.Operations.StateMachine
 
 		public static object[] GetLazyHandlerArgs(this IPipeContext context)
 		{
-			var func =  context.Get<Func<IPipeContext, Func<IPipeContext, object[]>>>(StateMachineKey.LazyHandlerArgsFunc);
+			var func = context.Get<Func<IPipeContext, Func<IPipeContext, object[]>>>(StateMachineKey.LazyHandlerArgsFunc);
 			return func?.Invoke(context)?.Invoke(context);
 		}
 

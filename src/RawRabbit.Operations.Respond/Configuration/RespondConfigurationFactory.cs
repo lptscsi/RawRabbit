@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.Configuration.Consumer;
+﻿using RawRabbit.Configuration.Consumer;
+using System;
 
 namespace RawRabbit.Operations.Respond.Configuration
 {

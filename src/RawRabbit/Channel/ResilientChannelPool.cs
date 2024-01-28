@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using RabbitMQ.Client;
+using RawRabbit.Channel.Abstraction;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel.Abstraction;
 
 namespace RawRabbit.Channel
 {

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
 using RawRabbit.Channel;
@@ -17,6 +16,7 @@ using RawRabbit.Instantiation;
 using RawRabbit.Pipe;
 using RawRabbit.Serialization;
 using RawRabbit.Subscription;
+using System.Linq;
 
 namespace RawRabbit.DependencyInjection
 {

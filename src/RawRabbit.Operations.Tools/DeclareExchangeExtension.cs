@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Exchange;
+﻿using RawRabbit.Configuration.Exchange;
 using RawRabbit.Operations.Tools.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -13,7 +13,7 @@ namespace RawRabbit
 		public static readonly Action<IPipeBuilder> DeclareExchangeAction = pipe => pipe
 			.Use<ExchangeDeclarationMiddleware>()
 			.Use<ExchangeDeclareMiddleware>();
-		
+
 		public static Task DeclareExchangeAsync(this IBusClient client, ExchangeDeclaration declaration, CancellationToken ct = default(CancellationToken))
 		{
 			return client.InvokeAsync(DeclareExchangeAction, ctx => ctx.Properties.Add(PipeKey.ExchangeDeclaration, declaration), ct);

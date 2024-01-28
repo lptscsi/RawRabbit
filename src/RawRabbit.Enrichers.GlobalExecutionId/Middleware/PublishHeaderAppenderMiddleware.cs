@@ -1,25 +1,25 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Common;
+﻿using RabbitMQ.Client;
+using RawRabbit.Configuration;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.GlobalExecutionId.Middleware
 {
 	public class PublishHeaderAppenderOptions
 	{
-		public Func<IPipeContext, IBasicProperties> BasicPropsFunc { get; set; }
+		public Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc { get; set; }
 		public Func<IPipeContext, string> GlobalExecutionIdFunc { get; set; }
-		public Action<IBasicProperties, string> AppendHeaderAction { get; set; }
+		public Action<BasicPropertiesConfiguration, string> AppendHeaderAction { get; set; }
 	}
 
 	public class PublishHeaderAppenderMiddleware : StagedMiddleware
 	{
-		protected Func<IPipeContext, IBasicProperties> BasicPropsFunc;
+		protected Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc;
 		protected Func<IPipeContext, string> GlobalExecutionIdFunc;
-		protected Action<IBasicProperties, string> AppendAction;
+		protected Action<BasicPropertiesConfiguration, string> AppendAction;
 		public override string StageMarker => Pipe.StageMarker.BasicPropertiesCreated;
 
 		public PublishHeaderAppenderMiddleware(PublishHeaderAppenderOptions options = null)
@@ -37,7 +37,7 @@ namespace RawRabbit.Enrichers.GlobalExecutionId.Middleware
 			return Next.InvokeAsync(context, token);
 		}
 
-		protected virtual IBasicProperties GetBasicProps(IPipeContext context)
+		protected virtual BasicPropertiesConfiguration GetBasicProps(IPipeContext context)
 		{
 			return BasicPropsFunc?.Invoke(context);
 		}
@@ -47,7 +47,7 @@ namespace RawRabbit.Enrichers.GlobalExecutionId.Middleware
 			return GlobalExecutionIdFunc?.Invoke(context);
 		}
 
-		protected virtual void AddIdToHeader(IBasicProperties props, string globalExecutionId)
+		protected virtual void AddIdToHeader(BasicPropertiesConfiguration props, string globalExecutionId)
 		{
 			AppendAction?.Invoke(props, globalExecutionId);
 		}

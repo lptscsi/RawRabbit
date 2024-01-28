@@ -1,14 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Exceptions;
 using RawRabbit.Logging;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Pipe;
 using RawRabbit.Serialization;
+using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Request.Middleware
 {
@@ -63,10 +63,10 @@ namespace RawRabbit.Operations.Request.Middleware
 			return ResponseTypeFunc?.Invoke(context);
 		}
 
-		protected virtual byte[] GetMessageBody(IPipeContext context)
+		protected virtual ReadOnlyMemory<byte> GetMessageBody(IPipeContext context)
 		{
 			var deliveryArgs = GetDeliverEventArgs(context);
-			return deliveryArgs?.Body ?? new byte[0];
+			return deliveryArgs?.Body ?? (new byte[0]).AsMemory();
 		}
 
 		protected virtual ExceptionInformation GetExceptionInfo(IPipeContext context)
@@ -74,14 +74,14 @@ namespace RawRabbit.Operations.Request.Middleware
 			var body = GetMessageBody(context);
 			try
 			{
-				return _serializer.Deserialize<ExceptionInformation>(body);
+				return _serializer.Deserialize<ExceptionInformation>(body.ToArray());
 			}
 			catch (Exception e)
 			{
 				return new ExceptionInformation
 				{
 					Message =
-						$"An unhandled exception was thrown by the responder, but the requesting client was unable to deserialize exception info. {Encoding.UTF8.GetString(body)}.",
+						$"An unhandled exception was thrown by the responder, but the requesting client was unable to deserialize exception info. {Encoding.UTF8.GetString(body.Span)}.",
 					InnerMessage = e.Message,
 					StackTrace = e.StackTrace,
 					ExceptionType = e.GetType().Name

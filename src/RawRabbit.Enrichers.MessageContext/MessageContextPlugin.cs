@@ -1,8 +1,8 @@
-﻿using System;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Instantiation;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
 
 namespace RawRabbit.Enrichers.MessageContext
 {

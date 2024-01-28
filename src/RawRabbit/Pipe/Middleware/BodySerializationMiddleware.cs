@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Serialization;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Serialization;
 
 namespace RawRabbit.Pipe.Middleware
 {

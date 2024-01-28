@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -18,13 +18,13 @@ namespace RawRabbit.Pipe.Middleware
 		protected readonly ITopologyProvider Topology;
 		private readonly ILog _logger = LogProvider.For<QueueDeclareMiddleware>();
 
-		public QueueDeclareMiddleware(ITopologyProvider topology, QueueDeclareOptions options = null )
+		public QueueDeclareMiddleware(ITopologyProvider topology, QueueDeclareOptions options = null)
 		{
 			Topology = topology;
 			QueueDeclareFunc = options?.QueueDeclarationFunc ?? (context => context.GetQueueDeclaration());
 		}
 
-		public override async Task InvokeAsync(IPipeContext context, CancellationToken token = default (CancellationToken))
+		public override async Task InvokeAsync(IPipeContext context, CancellationToken token = default(CancellationToken))
 		{
 			var queue = GetQueueDeclaration(context);
 

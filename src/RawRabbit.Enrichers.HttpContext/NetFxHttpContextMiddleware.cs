@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RawRabbit.Pipe;
+using RawRabbit.Pipe.Middleware;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Pipe;
-using RawRabbit.Pipe.Middleware;
 
 namespace RawRabbit.Enrichers.HttpContext
 {
@@ -13,10 +10,7 @@ namespace RawRabbit.Enrichers.HttpContext
 		public override string StageMarker => Pipe.StageMarker.Initialized;
 
 		public override Task InvokeAsync(IPipeContext context, CancellationToken token = new CancellationToken())
-		{
-#if NET451
-			context.UseHttpContext(System.Web.HttpContext.Current);
-#endif
+		{ 
 			return Next.InvokeAsync(context, token);
 		}
 	}

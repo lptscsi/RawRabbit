@@ -1,12 +1,12 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Consumer;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Enrichers.Attributes.Middleware
 {
@@ -132,7 +132,7 @@ namespace RawRabbit.Enrichers.Attributes.Middleware
 			}
 			if (attribute.NullableAutoDelete.HasValue)
 			{
-				config.Queue.AutoDelete= attribute.AutoDelete;
+				config.Queue.AutoDelete = attribute.AutoDelete;
 			}
 			if (attribute.MessageTtl >= 0)
 			{

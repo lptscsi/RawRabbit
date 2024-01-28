@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RawRabbit.Configuration.Get;
+﻿using RawRabbit.Configuration.Get;
 using RawRabbit.Operations.Get;
 using RawRabbit.Operations.Get.Middleware;
 using RawRabbit.Operations.Get.Model;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -21,7 +21,7 @@ namespace RawRabbit
 			.Use<BodyDeserializationMiddleware>(new MessageDeserializationOptions
 			{
 				BodyTypeFunc = context => context.GetMessageType(),
-				BodyFunc = context => context.GetBasicGetResult()?.Body
+				BodyFunc = context => context.GetBasicGetResult()?.Body ?? (new byte[0]).AsMemory()
 			})
 			.Use<AckableResultMiddleware>(new AckableResultOptions
 			{

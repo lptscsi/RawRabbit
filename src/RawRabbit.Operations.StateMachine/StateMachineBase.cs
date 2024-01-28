@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Stateless;
+using System;
 using System.Threading.Tasks;
-using Stateless;
 
 namespace RawRabbit.Operations.StateMachine
 {
@@ -29,7 +29,7 @@ namespace RawRabbit.Operations.StateMachine
 
 		public override Task TriggerAsync(object trigger)
 		{
-			return StateMachine.FireAsync((TTrigger) trigger);
+			return StateMachine.FireAsync((TTrigger)trigger);
 		}
 
 		public override Task TriggerAsync<TPayload>(object trigger, TPayload payload)
@@ -37,7 +37,7 @@ namespace RawRabbit.Operations.StateMachine
 			var paramTrigger = new StateMachine<TState, TTrigger>.TriggerWithParameters<TPayload>((TTrigger)trigger);
 			return StateMachine.FireAsync(paramTrigger, payload);
 		}
-		
+
 		public override Model GetDto()
 		{
 			return Model;

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Common;
+using RawRabbit.Configuration;
+using RawRabbit.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Common;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -13,7 +14,7 @@ namespace RawRabbit.Pipe.Middleware
 		public Func<IPipeContext, string> ExchangeNameFunc { get; set; }
 		public Func<IPipeContext, string> RoutingKeyFunc { get; set; }
 		public Func<IPipeContext, bool> MandatoryFunc { get; set; }
-		public Func<IPipeContext, IBasicProperties> BasicPropsFunc { get; set; }
+		public Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc { get; set; }
 		public Func<IPipeContext, byte[]> BodyFunc { get; set; }
 	}
 
@@ -24,7 +25,7 @@ namespace RawRabbit.Pipe.Middleware
 		protected Func<IPipeContext, string> ExchangeNameFunc;
 		protected Func<IPipeContext, string> RoutingKeyFunc;
 		protected Func<IPipeContext, bool> MandatoryFunc;
-		protected Func<IPipeContext, IBasicProperties> BasicPropsFunc;
+		protected Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc;
 		protected Func<IPipeContext, byte[]> BodyFunc;
 		private ILog _logger = LogProvider.For<BasicPublishMiddleware>();
 
@@ -45,9 +46,11 @@ namespace RawRabbit.Pipe.Middleware
 			var exchangeName = GetExchangeName(context);
 			var routingKey = GetRoutingKey(context);
 			var mandatory = GetMandatoryOptions(context);
-			var basicProps = GetBasicProps(context);
+			BasicPropertiesConfiguration propsConfig = GetBasicProps(context);
 			var body = GetMessageBody(context);
-
+			IBasicProperties basicProperties = channel.CreateBasicProperties();
+			propsConfig.UpdateBasicProps(basicProperties);
+	
 			_logger.Info("Performing basic publish with routing key {routingKey} on exchange {exchangeName}.", routingKey, exchangeName);
 
 			ExclusiveExecute(channel, c =>
@@ -56,7 +59,7 @@ namespace RawRabbit.Pipe.Middleware
 						exchange: exchangeName,
 						routingKey: routingKey,
 						mandatory: mandatory,
-						basicProps: basicProps,
+						basicProps: basicProperties,
 						body: body,
 						context: context
 					), token
@@ -91,7 +94,7 @@ namespace RawRabbit.Pipe.Middleware
 			return body;
 		}
 
-		protected virtual IBasicProperties GetBasicProps(IPipeContext context)
+		protected virtual BasicPropertiesConfiguration GetBasicProps(IPipeContext context)
 		{
 			var props = BasicPropsFunc(context);
 			if (props == null)
@@ -108,7 +111,7 @@ namespace RawRabbit.Pipe.Middleware
 
 		protected virtual string GetRoutingKey(IPipeContext context)
 		{
-			var routingKey =  RoutingKeyFunc(context);
+			var routingKey = RoutingKeyFunc(context);
 			if (routingKey == null)
 			{
 				_logger.Warn("No routing key found in the Pipe context.");

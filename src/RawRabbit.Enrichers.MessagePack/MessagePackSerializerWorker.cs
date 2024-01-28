@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MessagePack;
+using RawRabbit.Serialization;
+using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using MessagePack;
-using RawRabbit.Serialization;
+using System.Threading;
 
 namespace RawRabbit.Enrichers.MessagePack
 {
@@ -11,18 +13,23 @@ namespace RawRabbit.Enrichers.MessagePack
 		public string ContentType => "application/x-messagepack";
 		private readonly MethodInfo _deserializeType;
 		private readonly MethodInfo _serializeType;
+		private readonly MessagePackSerializerOptions _options;
 
 		public MessagePackSerializerWorker(MessagePackFormat format)
 		{
-			Type tp;
-
 			if (format == MessagePackFormat.LZ4Compression)
-				tp = typeof(LZ4MessagePackSerializer);
+			{
+				_options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray);
+			}
 			else
-				tp = typeof(MessagePackSerializer);
+			{
+				_options = MessagePackSerializerOptions.Standard;
+			}
+			
+			Type tp = typeof(MessagePackSerializer);
 
 			_deserializeType = tp
-				.GetMethod(nameof(MessagePackSerializer.Deserialize), new[] { typeof(byte[]) });
+				.GetMethod(nameof(MessagePackSerializer.Deserialize), new[] { typeof(Stream), typeof(MessagePackSerializerOptions), typeof(CancellationToken) });
 			_serializeType = tp
 				.GetMethods()
 				.FirstOrDefault(s => s.Name == nameof(MessagePackSerializer.Serialize) && s.ReturnType == typeof(byte[]));
@@ -35,18 +42,18 @@ namespace RawRabbit.Enrichers.MessagePack
 
 			return (byte[])_serializeType
 				.MakeGenericMethod(obj.GetType())
-				.Invoke(null, new[] { obj });
+				.Invoke(null, new[] { obj, _options, CancellationToken.None });
 		}
 
 		public object Deserialize(Type type, byte[] bytes)
 		{
 			return _deserializeType.MakeGenericMethod(type)
-				.Invoke(null, new object[] { bytes });
+				.Invoke(null, new object[] { new MemoryStream(bytes), _options, CancellationToken.None });
 		}
 
 		public TType Deserialize<TType>(byte[] bytes)
 		{
-			return MessagePackSerializer.Deserialize<TType>(bytes);
+			return MessagePackSerializer.Deserialize<TType>(bytes, _options, CancellationToken.None);
 		}
 	}
 }

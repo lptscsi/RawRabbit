@@ -1,6 +1,6 @@
-using System;
 using RawRabbit.Compatibility.Legacy.Configuration.Exchange;
 using RawRabbit.Compatibility.Legacy.Configuration.Queue;
+using System;
 
 namespace RawRabbit.Compatibility.Legacy.Configuration.Request
 {

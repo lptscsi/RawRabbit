@@ -13,8 +13,8 @@ namespace RawRabbit.Common
 		Func<Type, string> QueueNamingConvention { get; set; }
 		Func<Type, string> RoutingKeyConvention { get; set; }
 		Func<string> ErrorExchangeNamingConvention { get; set; }
-		Func<TimeSpan,string> RetryLaterExchangeConvention { get; set; }
-		Func<string, TimeSpan,string> RetryLaterQueueNameConvetion { get; set; }
+		Func<TimeSpan, string> RetryLaterExchangeConvention { get; set; }
+		Func<string, TimeSpan, string> RetryLaterQueueNameConvetion { get; set; }
 		Func<Type, string> SubscriberQueueSuffix { get; set; }
 	}
 
@@ -38,7 +38,7 @@ namespace RawRabbit.Common
 
 		public NamingConventions()
 		{
-			_subscriberCounter = new ConcurrentDictionary<Type,int>();
+			_subscriberCounter = new ConcurrentDictionary<Type, int>();
 			_applicationName = GetApplicationName(string.Join(" ", Environment.GetCommandLineArgs()));
 
 			ExchangeNamingConvention = type => type?.Namespace?.ToLower() ?? string.Empty;
@@ -47,7 +47,7 @@ namespace RawRabbit.Common
 			ErrorExchangeNamingConvention = () => "default_error_exchange";
 			SubscriberQueueSuffix = GetSubscriberQueueSuffix;
 			RetryLaterExchangeConvention = span => "default_retry_later_exchange";
-			RetryLaterQueueNameConvetion = (exchange, span) => $"retry_for_{exchange.Replace(".","_")}_in_{span.TotalMilliseconds}_ms";
+			RetryLaterQueueNameConvetion = (exchange, span) => $"retry_for_{exchange.Replace(".", "_")}_in_{span.TotalMilliseconds}_ms";
 		}
 
 		private string GetSubscriberQueueSuffix(Type messageType)
@@ -61,9 +61,9 @@ namespace RawRabbit.Common
 					var next = 0;
 					return next;
 				},
-				updateValueFactory:(type, i) =>
+				updateValueFactory: (type, i) =>
 				{
-					var next = i+1;
+					var next = i + 1;
 					sb.Append($"_{next}");
 					return next;
 				});
@@ -110,8 +110,8 @@ namespace RawRabbit.Common
 					}
 				}
 			}
-			
-			return applicationName.Replace(".","_").ToLower();
+
+			return applicationName.Replace(".", "_").ToLower();
 		}
 
 		private static string CreateShortAfqn(Type type, string path = "", string delimeter = ".")

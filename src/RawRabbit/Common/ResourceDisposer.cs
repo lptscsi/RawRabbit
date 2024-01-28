@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Channel;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Configuration;
 using RawRabbit.Subscription;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Common
 {
-	public interface IResourceDisposer :IDisposable
+	public interface IResourceDisposer : IDisposable
 	{
 		Task ShutdownAsync(TimeSpan? graceful = null);
 	}

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Configuration.Consumer;
 using RawRabbit.Enrichers.MessageContext.Subscribe;
 using RawRabbit.Operations.StateMachine;
@@ -10,6 +8,8 @@ using RawRabbit.Operations.StateMachine.Trigger;
 using RawRabbit.Operations.Subscribe.Middleware;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.MessageSequence.Trigger
 {
@@ -35,7 +35,7 @@ namespace RawRabbit.Operations.MessageSequence.Trigger
 
 		public static readonly Action<IPipeBuilder> SubscribePipe =
 			SubscribeMessageExtension.SubscribePipe + (p => p
-				.Replace<ConsumerMessageHandlerMiddleware, ConsumerMessageHandlerMiddleware>(args: new ConsumeOptions {Pipe = ConsumePipe})
+				.Replace<ConsumerMessageHandlerMiddleware, ConsumerMessageHandlerMiddleware>(args: new ConsumeOptions { Pipe = ConsumePipe })
 			);
 
 		public static TriggerConfigurer FromMessage<TStateMachine, TMessage, TMessageContext>(
@@ -45,12 +45,12 @@ namespace RawRabbit.Operations.MessageSequence.Trigger
 			Action<IConsumerConfigurationBuilder> consumeConfig = null
 		)
 		{
-			Func<object[], Task<Acknowledgement>> genericHandler = args => 
-				machineFunc((TStateMachine) args[0], (TMessage) args[1], (TMessageContext)args[2])
+			Func<object[], Task<Acknowledgement>> genericHandler = args =>
+				machineFunc((TStateMachine)args[0], (TMessage)args[1], (TMessageContext)args[2])
 					.ContinueWith<Acknowledgement>(t => new Ack());
-			Func<object, object, Guid> genericCorrFunc = (msg, ctx) => correlationFunc((TMessage) msg, (TMessageContext)ctx);
+			Func<object, object, Guid> genericCorrFunc = (msg, ctx) => correlationFunc((TMessage)msg, (TMessageContext)ctx);
 
-			return configurer.From(SubscribePipe,context =>
+			return configurer.From(SubscribePipe, context =>
 			{
 				var stateMachineContext = new StateMachineContext(context);
 				stateMachineContext.Properties.Add(StateMachineKey.Type, typeof(TStateMachine));

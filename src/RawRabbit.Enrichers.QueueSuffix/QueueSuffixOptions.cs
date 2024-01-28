@@ -1,7 +1,7 @@
-using System;
 using RawRabbit.Configuration.Consume;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Pipe;
+using System;
 
 namespace RawRabbit.Enrichers.QueueSuffix
 {

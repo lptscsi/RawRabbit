@@ -1,16 +1,16 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Configuration;
+using RawRabbit.Serialization;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Common;
-using RawRabbit.Serialization;
 
 namespace RawRabbit.Pipe.Middleware
 {
 	public class HeaderSerializationOptions
 	{
 		public Predicate<IPipeContext> ExecutePredicate { get; set; }
-		public Func<IPipeContext, IBasicProperties> BasicPropsFunc { get; set; }
+		public Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc { get; set; }
 		public Func<IPipeContext, object> RetrieveItemFunc { get; set; }
 		public Func<IPipeContext, object> CreateItemFunc { get; set; }
 		public Func<IPipeContext, string> HeaderKeyFunc { get; set; }
@@ -19,7 +19,7 @@ namespace RawRabbit.Pipe.Middleware
 	public class HeaderSerializationMiddleware : StagedMiddleware
 	{
 		protected readonly ISerializer Serializer;
-		protected Func<IPipeContext, IBasicProperties> BasicPropsFunc;
+		protected Func<IPipeContext, BasicPropertiesConfiguration> BasicPropsFunc;
 		protected Func<IPipeContext, object> RetrieveItemFunc;
 		protected Func<IPipeContext, object> CreateItemFunc;
 		protected Predicate<IPipeContext> ExecutePredicate;
@@ -63,7 +63,7 @@ namespace RawRabbit.Pipe.Middleware
 			return ExecutePredicate.Invoke(context);
 		}
 
-		protected virtual IBasicProperties GetBasicProperties(IPipeContext context)
+		protected virtual BasicPropertiesConfiguration GetBasicProperties(IPipeContext context)
 		{
 			return BasicPropsFunc?.Invoke(context);
 		}

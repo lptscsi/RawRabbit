@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit
 {
@@ -28,7 +28,7 @@ namespace RawRabbit
 							Pipe = p => p
 								.Use<HandlerInvocationMiddleware>(new HandlerInvocationOptions
 								{
-									HandlerArgsFunc = ctx => new object[] { ctx.GetDeliveryEventArgs()},
+									HandlerArgsFunc = ctx => new object[] { ctx.GetDeliveryEventArgs() },
 								})
 								.Use<ExplicitAckMiddleware>()
 						})

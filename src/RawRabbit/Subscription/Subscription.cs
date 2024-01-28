@@ -1,20 +1,20 @@
-﻿using System;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Consumer;
+using System;
 
 namespace RawRabbit.Subscription
 {
 	public interface ISubscription : IDisposable
 	{
 		string QueueName { get; }
-		string ConsumerTag { get; }
-		bool Active { get;  }
+		string[] ConsumerTags { get; }
+		bool Active { get; }
 	}
 
 	public class Subscription : ISubscription
 	{
 		public string QueueName { get; }
-		public string ConsumerTag { get; }
+		public string[] ConsumerTags { get; }
 		public bool Active { get; set; }
 
 		private readonly IBasicConsumer _consumer;
@@ -29,7 +29,7 @@ namespace RawRabbit.Subscription
 				return;
 			}
 			QueueName = queueName;
-			ConsumerTag = basicConsumer.ConsumerTag;
+			ConsumerTags = basicConsumer.ConsumerTags;
 		}
 
 		public void Dispose()

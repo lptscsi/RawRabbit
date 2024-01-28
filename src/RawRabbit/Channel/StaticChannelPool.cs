@@ -1,11 +1,11 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Exceptions;
+using RawRabbit.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Exceptions;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Channel
 {

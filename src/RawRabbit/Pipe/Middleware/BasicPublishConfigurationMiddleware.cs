@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Configuration.BasicPublish;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Configuration.BasicPublish;
 
 namespace RawRabbit.Pipe.Middleware
 {

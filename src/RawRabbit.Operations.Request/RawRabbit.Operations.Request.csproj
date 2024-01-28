@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
     <Description>Enrich the BusClient with a RequestAsync, the caller part of RPC.</Description>
     <AssemblyTitle>RawRabbit.Operations.Request</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman;enrique-avalon</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
     <AssemblyName>RawRabbit.Operations.Request</AssemblyName>
     <PackageId>RawRabbit.Operations.Request</PackageId>
     <PackageTags>rabbitmq;rawrabbit;operation;request</PackageTags>

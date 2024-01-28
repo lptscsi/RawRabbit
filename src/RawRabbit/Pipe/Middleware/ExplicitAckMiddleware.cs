@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
-using RawRabbit.Configuration.Exchange;
-using RawRabbit.Configuration.Queue;
-using ExchangeType = RabbitMQ.Client.ExchangeType;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -88,7 +84,7 @@ namespace RawRabbit.Pipe.Middleware
 					};
 					recoverable.Recovery += OnRecover;
 					await recoverTsc.Task;
-					
+
 				}
 				return new Ack();
 			}

@@ -23,6 +23,6 @@ namespace RawRabbit.Operations.Request.Configuration
 			config.Response.Consume.ExchangeName = DefaultExchange;
 			config.Response.Consume.AutoAck = true;
 			return config;
-		} 
+		}
 	}
 }

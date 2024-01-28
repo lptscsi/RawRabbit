@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Logging;
 using RawRabbit.Pipe;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Publish.Middleware
 {
@@ -25,7 +25,7 @@ namespace RawRabbit.Operations.Publish.Middleware
 		public ReturnCallbackMiddleware(ReturnCallbackOptions options = null)
 		{
 			CallbackFunc = options?.CallbackFunc ?? (context => context.GetReturnCallback());
-			ChannelFunc = options?.ChannelFunc?? (context => context.GetTransientChannel());
+			ChannelFunc = options?.ChannelFunc ?? (context => context.GetTransientChannel());
 			PostInvoke = options?.PostInvokeAction;
 		}
 

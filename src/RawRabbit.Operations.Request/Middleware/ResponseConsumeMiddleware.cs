@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Configuration.Consumer;
 using RawRabbit.Consumer;
@@ -10,6 +6,10 @@ using RawRabbit.Logging;
 using RawRabbit.Operations.Request.Context;
 using RawRabbit.Operations.Request.Core;
 using RawRabbit.Pipe;
+using System;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Operations.Request.Middleware
 {
@@ -25,7 +25,7 @@ namespace RawRabbit.Operations.Request.Middleware
 	{
 		protected static readonly ConcurrentDictionary<IBasicConsumer, ConcurrentDictionary<string, TaskCompletionSource<BasicDeliverEventArgs>>> AllResponses =
 			new ConcurrentDictionary<IBasicConsumer, ConcurrentDictionary<string, TaskCompletionSource<BasicDeliverEventArgs>>>();
-		
+
 		protected readonly IConsumerFactory ConsumerFactory;
 		protected readonly Pipe.Middleware.Middleware ResponsePipe;
 		private readonly ILog _logger = LogProvider.For<ResponseConsumeMiddleware>();

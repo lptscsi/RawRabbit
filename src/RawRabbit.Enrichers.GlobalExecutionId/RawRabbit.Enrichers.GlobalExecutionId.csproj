@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
     <Description>Message headers and routing with Global Execution Id</Description>
     <AssemblyTitle>RawRabbit.Enrichers.GlobalExecutionId</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman</Authors>
-    <TargetFrameworks>netstandard1.5;net451</TargetFrameworks>
     <AssemblyName>RawRabbit.Enrichers.GlobalExecutionId</AssemblyName>
     <PackageId>RawRabbit.Enrichers.GlobalExecutionId</PackageId>
     <PackageTags>rabbitmq;rawrabbit;global;executionid</PackageTags>

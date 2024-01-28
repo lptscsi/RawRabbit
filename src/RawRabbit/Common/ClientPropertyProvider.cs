@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using RawRabbit.Configuration;
 
 namespace RawRabbit.Common
 {

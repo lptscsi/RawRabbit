@@ -1,6 +1,5 @@
-﻿using System;
-using Autofac;
-using RawRabbit.DependencyInjection;
+﻿using Autofac;
+using System;
 
 namespace RawRabbit.DependencyInjection.Autofac
 {

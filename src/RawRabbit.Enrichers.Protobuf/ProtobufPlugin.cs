@@ -12,7 +12,7 @@ namespace RawRabbit
 		public static IClientBuilder UseProtobuf(this IClientBuilder builder)
 		{
 			builder.Register(
-				pipe: p => {},
+				pipe: p => { },
 				ioc: di => di.AddSingleton<ISerializer, ProtobufSerializer>());
 			return builder;
 		}

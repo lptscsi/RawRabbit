@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Channel.Abstraction;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel.Abstraction;
 
 namespace RawRabbit.Pipe.Middleware
 {

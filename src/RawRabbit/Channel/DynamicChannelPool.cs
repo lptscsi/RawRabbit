@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RabbitMQ.Client;
+using System.Collections.Generic;
 using System.Linq;
-using RabbitMQ.Client;
 
 namespace RawRabbit.Channel
 {

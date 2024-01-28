@@ -1,6 +1,6 @@
+using RawRabbit.Pipe;
 using System;
 using System.Threading;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.MessageSequence.Configuration.Abstraction
 {

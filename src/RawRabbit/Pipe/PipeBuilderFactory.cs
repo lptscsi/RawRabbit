@@ -1,6 +1,6 @@
-﻿using System;
+﻿using RawRabbit.DependencyInjection;
+using System;
 using System.Collections.Concurrent;
-using RawRabbit.DependencyInjection;
 
 namespace RawRabbit.Pipe
 {

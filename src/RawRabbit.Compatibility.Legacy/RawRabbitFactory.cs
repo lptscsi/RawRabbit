@@ -1,11 +1,9 @@
-﻿using System;
-using RawRabbit.Compatibility.Legacy.Configuration;
+﻿using RawRabbit.Compatibility.Legacy.Configuration;
 using RawRabbit.DependencyInjection;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Instantiation;
-using RawRabbit.Pipe;
-using RawRabbit.Pipe.Middleware;
+using System;
 using RawRabbitConfiguration = RawRabbit.Configuration.RawRabbitConfiguration;
 
 namespace RawRabbit.Compatibility.Legacy
@@ -36,7 +34,7 @@ namespace RawRabbit.Compatibility.Legacy
 			options.ClientConfiguration = options?.ClientConfiguration ?? RawRabbitConfiguration.Local;
 			options.Plugins = options.Plugins ?? (builder => { });
 			options.Plugins += builder => builder
-				.UseMessageContext(context => new MessageContext {GlobalRequestId = Guid.NewGuid()})
+				.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid() })
 				.UseContextForwarding();
 			var simpleIoc = new SimpleDependencyInjection();
 			var client = Instantiation.RawRabbitFactory.CreateSingleton(options, simpleIoc, ioc => simpleIoc);

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Pipe;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.Get.Middleware
 {
@@ -17,7 +17,7 @@ namespace RawRabbit.Operations.Get.Middleware
 	public class BasicGetMiddleware : Pipe.Middleware.Middleware
 	{
 		protected Func<IPipeContext, IModel> ChannelFunc;
-		protected  Func<IPipeContext, string> QueueNameFunc;
+		protected Func<IPipeContext, string> QueueNameFunc;
 		protected Func<IPipeContext, bool> AutoAckFunc;
 		protected Action<IPipeContext, BasicGetResult> PostExecutionAction;
 

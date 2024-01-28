@@ -1,13 +1,13 @@
-﻿using System;
+﻿using RawRabbit.Pipe;
+using System;
 using System.Collections.Generic;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.StateMachine.Trigger
 {
 	public class TriggerConfigurer
 	{
 		public List<TriggerConfiguration> TriggerConfiguration { get; set; }
-		
+
 		public TriggerConfigurer()
 		{
 			TriggerConfiguration = new List<TriggerConfiguration>();

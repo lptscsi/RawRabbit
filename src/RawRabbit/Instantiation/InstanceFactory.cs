@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Channel.Abstraction;
+﻿using RawRabbit.Channel.Abstraction;
 using RawRabbit.Common;
 using RawRabbit.Configuration;
 using RawRabbit.DependencyInjection;
 using RawRabbit.Pipe;
 using RawRabbit.Subscription;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Instantiation
 {

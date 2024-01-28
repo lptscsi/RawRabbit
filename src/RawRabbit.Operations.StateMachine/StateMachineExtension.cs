@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using RawRabbit.Operations.StateMachine.Trigger;
+using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Operations.StateMachine.Trigger;
 
 namespace RawRabbit.Operations.StateMachine
 {

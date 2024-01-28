@@ -1,15 +1,15 @@
-﻿using System;
+﻿using RawRabbit.Configuration.Queue;
+using RawRabbit.Pipe;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.Configuration.Queue;
-using RawRabbit.Pipe;
 
 namespace RawRabbit.Operations.Tools.Middleware
 {
 	public class QueueDeclarationOptions
 	{
-		public Func <IPipeContext, QueueDeclaration> QueueDeclarationFunc { get; set; }
-		public Action<IPipeContext, QueueDeclaration> SaveToContext { get; set;  }
+		public Func<IPipeContext, QueueDeclaration> QueueDeclarationFunc { get; set; }
+		public Action<IPipeContext, QueueDeclaration> SaveToContext { get; set; }
 	}
 
 	public class QueueDeclarationMiddleware : Pipe.Middleware.Middleware
@@ -21,8 +21,8 @@ namespace RawRabbit.Operations.Tools.Middleware
 		public QueueDeclarationMiddleware(IQueueConfigurationFactory cfgFactory, QueueDeclarationOptions options = null)
 		{
 			CfgFactory = cfgFactory;
-			QueueDeclarationFunc = options?.QueueDeclarationFunc ?? (ctx =>ctx.GetQueueDeclaration());
-			SaveToContextAction = options?.SaveToContext ?? ((ctx, declaration) =>ctx.Properties.TryAdd(PipeKey.QueueDeclaration, declaration));
+			QueueDeclarationFunc = options?.QueueDeclarationFunc ?? (ctx => ctx.GetQueueDeclaration());
+			SaveToContextAction = options?.SaveToContext ?? ((ctx, declaration) => ctx.Properties.TryAdd(PipeKey.QueueDeclaration, declaration));
 		}
 
 		public override Task InvokeAsync(IPipeContext context, CancellationToken token = default(CancellationToken))
@@ -35,7 +35,7 @@ namespace RawRabbit.Operations.Tools.Middleware
 		protected virtual QueueDeclaration GetQueueDeclaration(IPipeContext context)
 		{
 			var declaration = QueueDeclarationFunc?.Invoke(context);
-			if(declaration != null)
+			if (declaration != null)
 			{
 				return declaration;
 			}

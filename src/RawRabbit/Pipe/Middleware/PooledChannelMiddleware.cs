@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Channel;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -22,7 +22,7 @@ namespace RawRabbit.Pipe.Middleware
 		{
 			PoolFactory = poolFactory;
 			PoolNameFunc = options?.PoolNameFunc;
-			SaveInContextAction = options?.SaveInContextAction ?? ((ctx, value) =>ctx.Properties.TryAdd(PipeKey.TransientChannel, value));
+			SaveInContextAction = options?.SaveInContextAction ?? ((ctx, value) => ctx.Properties.TryAdd(PipeKey.TransientChannel, value));
 		}
 
 		public override async Task InvokeAsync(IPipeContext context, CancellationToken token = default(CancellationToken))

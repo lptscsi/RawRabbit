@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RawRabbit.Consumer;
 using RawRabbit.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RawRabbit.Pipe.Middleware
 {
@@ -28,8 +28,8 @@ namespace RawRabbit.Pipe.Middleware
 		public ConsumerMessageHandlerMiddleware(IPipeBuilderFactory pipeBuilderFactory, IPipeContextFactory contextFactory, ConsumeOptions options = null)
 		{
 			ContextFactory = contextFactory;
-			ConsumeFunc = options?.ConsumerFunc ?? (context =>context.GetConsumer());
-			ConsumePipe = pipeBuilderFactory.Create(options?.Pipe ?? (builder => {}));
+			ConsumeFunc = options?.ConsumerFunc ?? (context => context.GetConsumer());
+			ConsumePipe = pipeBuilderFactory.Create(options?.Pipe ?? (builder => { }));
 			ThrottledExecutionFunc = options?.ThrottleFuncFunc ?? (context => context.GetConsumeThrottleAction());
 		}
 

@@ -1,14 +1,14 @@
-﻿using System;
+﻿using RabbitMQ.Client;
+using RawRabbit.Channel.Abstraction;
+using RawRabbit.Configuration.Exchange;
+using RawRabbit.Configuration.Queue;
+using RawRabbit.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.Channel.Abstraction;
-using RawRabbit.Configuration.Exchange;
-using RawRabbit.Configuration.Queue;
-using RawRabbit.Logging;
 
 namespace RawRabbit.Common
 {
@@ -69,7 +69,7 @@ namespace RawRabbit.Common
 			return scheduled.TaskCompletionSource.Task;
 		}
 
-		public Task BindQueueAsync(string queue, string exchange, string routingKey, IDictionary<string,object> arguments)
+		public Task BindQueueAsync(string queue, string exchange, string routingKey, IDictionary<string, object> arguments)
 		{
 			if (string.Equals(exchange, string.Empty))
 			{
@@ -159,7 +159,7 @@ namespace RawRabbit.Common
 				_queueBinds.Remove(bindKey);
 			}
 		}
-		
+
 		private static string CreateBindKey(ScheduledBindQueueTask bind)
 		{
 			return CreateBindKey(bind.Queue, bind.Exchange, bind.RoutingKey, bind.Arguments);
@@ -357,7 +357,7 @@ namespace RawRabbit.Common
 			public string Exchange { get; set; }
 			public string Queue { get; set; }
 			public string RoutingKey { get; set; }
-			public IDictionary<string,object> Arguments { get; set; }
+			public IDictionary<string, object> Arguments { get; set; }
 		}
 
 		private class ScheduledUnbindQueueTask : ScheduledTopologyTask

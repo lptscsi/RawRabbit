@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
     <Description>Enrich the IPipeContext with current HttpContext</Description>
     <AssemblyTitle>RawRabbit.Enrichers.HttpContext</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>pardahlman</Authors>
-    <TargetFrameworks>netstandard1.6;net451</TargetFrameworks>
-    <AssemblyName>RawRabbit.Enrichers.HttpContext</AssemblyName>
+		<AssemblyName>RawRabbit.Enrichers.HttpContext</AssemblyName>
     <PackageId>RawRabbit.Enrichers.HttpContext</PackageId>
     <PackageTags>rabbitmq;rawrabbit;httpcontext</PackageTags>
     <PackageIconUrl>http://pardahlman.se/raw/icon.png</PackageIconUrl>
@@ -20,18 +20,12 @@
     <DefineConstants>TRACE;DEBUG;NETSTANDARD1_6;LIBLOG_PORTABLE</DefineConstants>
   </PropertyGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\RawRabbit\RawRabbit.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
-    <Reference Include="System" />
-		<Reference Include="System.Web" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
 </Project>
