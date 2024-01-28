@@ -2,6 +2,7 @@
 using RawRabbit.Operations.Respond.Core;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
 
 namespace RawRabbit.Operations.Respond.Middleware
 {

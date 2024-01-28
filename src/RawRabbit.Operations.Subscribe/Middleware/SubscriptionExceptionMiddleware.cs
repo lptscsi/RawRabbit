@@ -7,6 +7,7 @@ using RawRabbit.Pipe.Middleware;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using IModel = RabbitMQ.Client.IModel;
 
 namespace RawRabbit.Operations.Subscribe.Middleware

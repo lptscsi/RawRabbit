@@ -1,5 +1,6 @@
 ﻿using RawRabbit.Pipe;
 using System;
+using System.Collections.Generic;
 
 namespace RawRabbit.Enrichers.MessageContext.Respond
 {

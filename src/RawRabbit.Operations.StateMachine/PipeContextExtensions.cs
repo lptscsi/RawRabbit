@@ -1,6 +1,7 @@
 ﻿using RawRabbit.Operations.StateMachine.Context;
 using RawRabbit.Pipe;
 using System;
+using System.Collections.Generic;
 
 namespace RawRabbit.Operations.StateMachine
 {

@@ -239,7 +239,7 @@ namespace RawRabbit.Operations.MessageSequence.StateMachine
 				{
 					context.Properties.Add(StateMachineKey.ModelId, Model.Id);
 					context.Properties.Add(StateMachineKey.Machine, this);
-					DictionaryExtensions.TryAdd(context.Properties, PipeKey.Channel, _channel);
+					context.Properties.TryAdd(PipeKey.Channel, _channel);
 				};
 				var ctx = _client.InvokeAsync(triggerCfg.Pipe, triggerCfg.Context).GetAwaiter().GetResult();
 				_subscriptions.Add(ctx.GetSubscription());

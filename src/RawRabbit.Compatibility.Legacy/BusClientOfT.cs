@@ -15,6 +15,7 @@ using RawRabbit.Pipe;
 using RawRabbit.Subscription;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace RawRabbit.Compatibility.Legacy
 {

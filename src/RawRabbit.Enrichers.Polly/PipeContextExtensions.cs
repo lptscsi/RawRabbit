@@ -1,5 +1,6 @@
 ﻿using Polly;
 using RawRabbit.Pipe;
+using System.Collections.Generic;
 
 namespace RawRabbit.Enrichers.Polly
 {

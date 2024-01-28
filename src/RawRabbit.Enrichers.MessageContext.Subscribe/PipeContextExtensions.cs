@@ -1,6 +1,7 @@
 ﻿using RawRabbit.Operations.Subscribe.Context;
 using RawRabbit.Pipe;
 using System;
+using System.Collections.Generic;
 
 namespace RawRabbit.Enrichers.MessageContext.Subscribe
 {
