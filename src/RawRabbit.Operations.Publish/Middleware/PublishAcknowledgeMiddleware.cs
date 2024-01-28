@@ -104,6 +104,47 @@ namespace RawRabbit.Operations.Publish.Middleware
 			return ConfirmsDictionary[channel];
 		}
 
+		private void ProcessAcknowledgement(
+			ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> dictionary,
+			ulong deliveryTag,
+			bool multiple,
+			bool isOk,
+			CancellationToken token)
+		{
+			if (multiple)
+			{
+				IEnumerable<ulong> tags = dictionary.Keys.Where(k => k <= deliveryTag).ToList();
+				foreach (var tag in tags)
+				{
+					if (token.IsCancellationRequested)
+					{
+						return;
+					}
+
+					if (!dictionary.TryRemove(tag, out var tcs))
+					{
+						_logger.Warn("Unable to find ack tcs for {deliveryTag}", tag);
+					}
+					else
+					{
+						bool t = isOk ? tcs.TrySetResult(tag) : tcs.TrySetCanceled();
+					}
+				}
+			}
+			else
+			{
+				_logger.Info("Received ack for {deliveryTag}", deliveryTag);
+				if (!dictionary.TryRemove(deliveryTag, out var tcs))
+				{
+					_logger.Warn("Unable to find ack tcs for {deliveryTag}", deliveryTag);
+				}
+				else
+				{
+					bool t = isOk ? tcs.TrySetResult(deliveryTag) : tcs.TrySetCanceled();
+				}
+			}
+		}
+
 		protected virtual void EnableAcknowledgement(IModel channel, CancellationToken token)
 		{
 			_logger.Info("Setting 'Publish Acknowledge' for channel '{channelNumber}'", channel.ChannelNumber);
@@ -114,35 +155,16 @@ namespace RawRabbit.Operations.Publish.Middleware
 					return;
 				}
 				c.ConfirmSelect();
-				var dictionary = GetChannelDictionary(c);
+				ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> dictionary = GetChannelDictionary(c);
+
 				c.BasicAcks += (sender, args) =>
 				{
-					Task.Run(() =>
-					{
-						if (args.Multiple)
-						{
-							foreach (var deliveryTag in dictionary.Keys.Where(k => k <= args.DeliveryTag).ToList())
-							{
-								if (!dictionary.TryRemove(deliveryTag, out var tcs))
-								{
-									continue;
-								}
-								if (!tcs.TrySetResult(deliveryTag))
-								{
-									continue;
-								}
-							}
-						}
-						else
-						{
-							_logger.Info("Received ack for {deliveryTag}", args.DeliveryTag);
-							if (!dictionary.TryRemove(args.DeliveryTag, out var tcs))
-							{
-								_logger.Warn("Unable to find ack tcs for {deliveryTag}", args.DeliveryTag);
-							}
-							tcs?.TrySetResult(args.DeliveryTag);
-						}
-					}, token);
+					ProcessAcknowledgement(dictionary, args.DeliveryTag, args.Multiple, true, token);
+				};
+
+				c.BasicNacks += (sender, args) =>
+				{
+					ProcessAcknowledgement(dictionary, args.DeliveryTag, args.Multiple, false, token);
 				};
 			}, token);
 		}
