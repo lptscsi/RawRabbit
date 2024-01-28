@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using RawRabbit.Instantiation;
+﻿using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.StateMachine.Generic;
 using RawRabbit.Operations.StateMachine;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.StateMachine

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Enrichers.MessageContext;
+﻿using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Exceptions;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Operations.Request.Middleware;
-using RawRabbit.Pipe;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Rpc
@@ -116,7 +115,7 @@ namespace RawRabbit.IntegrationTests.Rpc
 		[Fact]
 		public async Task Should_Publish_Message_To_Error_Exchange_When_Subscriber_Has_Context()
 		{
-			using (var publisher = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseMessageContext<MessageContext>()}))
+			using (var publisher = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseMessageContext<MessageContext>() }))
 			using (var subscriber = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using Ninject;
+﻿using Ninject;
 using Ninject.Activation;
 using Ninject.Parameters;
-using RawRabbit.DependencyInjection;
+using System;
+using System.Linq;
 
 namespace RawRabbit.DependencyInjection.Ninject
 {
@@ -18,7 +17,7 @@ namespace RawRabbit.DependencyInjection.Ninject
 
 		public TService GetService<TService>(params object[] additional)
 		{
-			return (TService) GetService(typeof(TService), additional);
+			return (TService)GetService(typeof(TService), additional);
 		}
 
 		public object GetService(Type serviceType, params object[] additional)

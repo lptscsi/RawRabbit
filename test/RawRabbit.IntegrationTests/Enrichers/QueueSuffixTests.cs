@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Enrichers.QueueSuffix;
+﻿using RawRabbit.Enrichers.QueueSuffix;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers
@@ -33,14 +32,14 @@ namespace RawRabbit.IntegrationTests.Enrichers
 					secondTsc.TrySetResult(message);
 					return Task.FromResult(0);
 				});
-				
+
 				/* Test */
 				await publisher.PublishAsync(new BasicMessage());
 				await firstTsc.Task;
 				await secondTsc.Task;
 
 				/* Assert */
-				Assert.True(true,"Should be delivered to both subscribers");
+				Assert.True(true, "Should be delivered to both subscribers");
 			}
 		}
 
@@ -72,7 +71,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 				}, ctx => ctx.UseApplicationQueueSuffix(false));
 
 				/* Test */
-			await publisher.PublishAsync(new BasicMessage());
+				await publisher.PublishAsync(new BasicMessage());
 				await firstTsc.Task;
 				await secondTsc.Task;
 
@@ -327,7 +326,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 
 				/* Test */
 				await publisher.PublishAsync(new BasicMessage());
-				Task.WaitAll(new Task[] {firstTsc.Task, secondTsc.Task}, TimeSpan.FromMilliseconds(300));
+				Task.WaitAll(new Task[] { firstTsc.Task, secondTsc.Task }, TimeSpan.FromMilliseconds(300));
 
 				/* Assert */
 				var oneCompleted = firstTsc.Task.IsCompleted || secondTsc.Task.IsCompleted;

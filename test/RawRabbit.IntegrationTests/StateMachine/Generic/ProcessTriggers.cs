@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.Operations.StateMachine.Trigger;
+﻿using RawRabbit.Operations.StateMachine.Trigger;
+using System;
 
 namespace RawRabbit.IntegrationTests.StateMachine.Generic
 {

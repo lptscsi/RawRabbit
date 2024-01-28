@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using RawRabbit.Operations.Request.Middleware;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Operations.Request.Middleware;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Rpc

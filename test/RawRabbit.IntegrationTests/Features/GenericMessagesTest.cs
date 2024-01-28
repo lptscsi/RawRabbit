@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Features
@@ -23,7 +22,7 @@ namespace RawRabbit.IntegrationTests.Features
 					{
 						doneTsc.TrySetResult(received);
 						return Task.FromResult(0);
-					} 
+					}
 				);
 				/* Test */
 				await publisher.PublishAsync(message);

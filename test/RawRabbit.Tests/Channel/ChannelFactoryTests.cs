@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using RabbitMQ.Client;
 using RawRabbit.Channel;
 using RawRabbit.Configuration;
 using RawRabbit.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.Tests.Channel

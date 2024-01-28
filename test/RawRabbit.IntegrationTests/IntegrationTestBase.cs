@@ -1,5 +1,5 @@
-﻿using System;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
+using System;
 
 namespace RawRabbit.IntegrationTests
 {
@@ -8,7 +8,7 @@ namespace RawRabbit.IntegrationTests
 		protected IModel TestChannel => _testChannel.Value;
 		private readonly Lazy<IModel> _testChannel;
 		private IConnection _connection;
-		
+
 		public IntegrationTestBase()
 		{
 			_testChannel = new Lazy<IModel>(() =>

@@ -10,7 +10,7 @@ namespace RawRabbit.Enrichers.HttpContext
 		public override string StageMarker => Pipe.StageMarker.Initialized;
 
 		public override Task InvokeAsync(IPipeContext context, CancellationToken token = new CancellationToken())
-		{ 
+		{
 			return Next.InvokeAsync(context, token);
 		}
 	}

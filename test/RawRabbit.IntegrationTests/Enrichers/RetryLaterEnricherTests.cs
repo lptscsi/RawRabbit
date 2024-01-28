@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Enrichers.MessageContext.Subscribe;
 using RawRabbit.IntegrationTests.TestMessages;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers
@@ -33,7 +33,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 					}
 					thirdTcs.TrySetResult(context);
 					return new Ack();
-				}, ctx => ctx.UseMessageContext(c => new RetryMessageContext { RetryInfo = c.GetRetryInformation()}));
+				}, ctx => ctx.UseMessageContext(c => new RetryMessageContext { RetryInfo = c.GetRetryInformation() }));
 
 				/* Test */
 				await publisher.PublishAsync(new BasicMessage());

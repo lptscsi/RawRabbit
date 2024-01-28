@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
 using RawRabbit.Instantiation;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.DependencyInjection
@@ -16,7 +16,7 @@ namespace RawRabbit.IntegrationTests.DependencyInjection
 			config.VirtualHost = nonExistingVhost;
 			await Assert.ThrowsAnyAsync<Exception>(async () =>
 			{
-				var factory = RawRabbitFactory.CreateTestInstanceFactory(new RawRabbitOptions {ClientConfiguration = config});
+				var factory = RawRabbitFactory.CreateTestInstanceFactory(new RawRabbitOptions { ClientConfiguration = config });
 				var client = factory.Create();
 				await client.CreateChannelAsync();
 			});

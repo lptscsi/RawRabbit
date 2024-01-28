@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using RawRabbit.Exceptions;
+﻿using RawRabbit.Exceptions;
 using RawRabbit.IntegrationTests.TestMessages;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Compatibility

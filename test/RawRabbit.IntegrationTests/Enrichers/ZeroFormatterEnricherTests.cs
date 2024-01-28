@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Enrichers.ZeroFormatter;
+﻿using RawRabbit.Enrichers.ZeroFormatter;
 using RawRabbit.Instantiation;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using ZeroFormatter;
 

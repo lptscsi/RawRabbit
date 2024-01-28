@@ -43,7 +43,7 @@ namespace RawRabbit.PerformanceTest
 
 			_busClient.PublishAsync(_message, ctx => ctx.UsePublishAcknowledge(false));
 			await msgTsc.Task;
- 			MessageReceived -= onMessageReceived;
+			MessageReceived -= onMessageReceived;
 		}
 
 		[Benchmark]

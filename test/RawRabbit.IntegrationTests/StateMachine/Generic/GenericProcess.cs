@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Operations.StateMachine;
+﻿using RawRabbit.Operations.StateMachine;
 using Stateless;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.IntegrationTests.StateMachine.Generic
 {

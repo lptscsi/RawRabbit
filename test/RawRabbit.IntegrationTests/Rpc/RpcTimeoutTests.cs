@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using RawRabbit.Operations.Request.Middleware;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Operations.Request.Middleware;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Rpc
@@ -66,7 +66,7 @@ namespace RawRabbit.IntegrationTests.Rpc
 
 				/* Test */
 				var response = await requester.RequestAsync<BasicRequest, BasicResponse>();
-				
+
 				/* Assert */
 				Assert.NotNull(response);
 			}

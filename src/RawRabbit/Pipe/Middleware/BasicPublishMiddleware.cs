@@ -50,7 +50,7 @@ namespace RawRabbit.Pipe.Middleware
 			var body = GetMessageBody(context);
 			IBasicProperties basicProperties = channel.CreateBasicProperties();
 			propsConfig.UpdateBasicProps(basicProperties);
-	
+
 			_logger.Info("Performing basic publish with routing key {routingKey} on exchange {exchangeName}.", routingKey, exchangeName);
 
 			ExclusiveExecute(channel, c =>

@@ -1,5 +1,4 @@
-﻿using RabbitMQ.Client;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
 using System;

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Moq;
+using RabbitMQ.Client;
+using RawRabbit.Channel;
+using RawRabbit.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Moq;
-using RabbitMQ.Client;
-using RawRabbit.Channel;
-using RawRabbit.Exceptions;
 using Xunit;
 
 namespace RawRabbit.Tests.Channel
@@ -17,7 +17,7 @@ namespace RawRabbit.Tests.Channel
 		public async Task Should_Serve_Open_Channels_In_A_Round_Robin_Manner()
 		{
 			/* Setup */
-			var mockObjects = new List<Mock<IModel>> {new Mock<IModel>(), new Mock<IModel>(), new Mock<IModel>()};
+			var mockObjects = new List<Mock<IModel>> { new Mock<IModel>(), new Mock<IModel>(), new Mock<IModel>() };
 			foreach (var mockObject in mockObjects)
 			{
 				mockObject.As<IRecoverable>();
@@ -44,8 +44,8 @@ namespace RawRabbit.Tests.Channel
 		public async Task Should_Not_Serve_Closed_Channels()
 		{
 			/* Setup */
-			var openChannel = new Mock<IModel> { Name = "Always open"};
-			var toCloseChannel = new Mock<IModel> { Name = "Will close"};
+			var openChannel = new Mock<IModel> { Name = "Always open" };
+			var toCloseChannel = new Mock<IModel> { Name = "Will close" };
 
 			openChannel
 				.Setup(c => c.IsClosed)
@@ -55,7 +55,7 @@ namespace RawRabbit.Tests.Channel
 				.SetupSequence(model => model.IsClosed)
 				.Returns(false)
 				.Returns(true);
-			var pool = new StaticChannelPool(new []{openChannel.Object, toCloseChannel.Object});
+			var pool = new StaticChannelPool(new[] { openChannel.Object, toCloseChannel.Object });
 
 			/* Test */
 			var first = await pool.GetAsync();
@@ -221,12 +221,12 @@ namespace RawRabbit.Tests.Channel
 		public async Task Should_Be_Able_To_Cancel_With_Token()
 		{
 			/* Setup */
-			var closedChannel = new Mock<IModel> { Name = "Closed Channel"};
+			var closedChannel = new Mock<IModel> { Name = "Closed Channel" };
 			closedChannel.As<IRecoverable>();
 			closedChannel
 				.Setup(m => m.IsClosed)
 				.Returns(true);
-			var pool = new StaticChannelPool(new []{closedChannel.Object});
+			var pool = new StaticChannelPool(new[] { closedChannel.Object });
 			var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(50));
 
 			/* Test */
@@ -253,7 +253,7 @@ namespace RawRabbit.Tests.Channel
 				.Returns(false)
 				.Returns(true);
 			var pool = new StaticChannelPool(new[] { closedChannel.Object });
-			closedChannel.Raise(c =>c.ModelShutdown += null, null, new ShutdownEventArgs(ShutdownInitiator.Application, 0, string.Empty));
+			closedChannel.Raise(c => c.ModelShutdown += null, null, new ShutdownEventArgs(ShutdownInitiator.Application, 0, string.Empty));
 
 			/* Test */
 			/* Assert */

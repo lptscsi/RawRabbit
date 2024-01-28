@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
+using System;
 using Xunit;
 
 namespace RawRabbit.Tests.Common

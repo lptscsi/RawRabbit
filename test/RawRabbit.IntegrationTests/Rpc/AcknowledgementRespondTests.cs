@@ -1,8 +1,8 @@
 ﻿#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
-using System.Threading.Tasks;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Operations.Respond.Acknowledgement;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Rpc
@@ -64,7 +64,7 @@ namespace RawRabbit.IntegrationTests.Rpc
 				/* Setup */
 				var firstTsc = new TaskCompletionSource<BasicRequest>();
 				var secondTsc = new TaskCompletionSource<BasicRequest>();
-				var sent = new BasicResponse {Prop = "I'm from the second handler"};
+				var sent = new BasicResponse { Prop = "I'm from the second handler" };
 
 				await responder.RespondAsync<BasicRequest, BasicResponse>(async request =>
 					{

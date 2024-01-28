@@ -34,14 +34,14 @@ namespace RawRabbit.ConsoleApp.Sample
 				   .Build())
 				   .Bind(config);
 
-		   _client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions
+			_client = RawRabbitFactory.CreateSingleton(new RawRabbitOptions
 			{
 				ClientConfiguration = config,
 				Plugins = p => p
 					.UseGlobalExecutionId()
 					.UseMessageContext<MessageContext>()
 			});
-			
+
 
 			await _client.SubscribeAsync<ValuesRequested, MessageContext>((requested, ctx) => ServerValuesAsync(requested, ctx));
 			await _client.RespondAsync<ValueRequest, ValueResponse>(request => SendValuesThoughRpcAsync(request));

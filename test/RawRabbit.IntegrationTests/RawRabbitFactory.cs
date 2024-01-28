@@ -1,6 +1,6 @@
-﻿using System;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
 using RawRabbit.Instantiation;
+using System;
 
 namespace RawRabbit.IntegrationTests
 {
@@ -8,7 +8,7 @@ namespace RawRabbit.IntegrationTests
 	{
 		public static Instantiation.Disposable.BusClient CreateTestClient(Action<IClientBuilder> plugins)
 		{
-			return CreateTestClient(new RawRabbitOptions {Plugins = plugins});
+			return CreateTestClient(new RawRabbitOptions { Plugins = plugins });
 		}
 
 		public static Instantiation.Disposable.BusClient CreateTestClient(RawRabbitOptions options = null)

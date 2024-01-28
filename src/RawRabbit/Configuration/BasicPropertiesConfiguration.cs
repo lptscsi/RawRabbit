@@ -1,9 +1,13 @@
 ﻿using RabbitMQ.Client;
-using RawRabbit.Pipe;
 using System.Collections.Generic;
 
 namespace RawRabbit.Configuration
 {
+	/// <summary>
+	/// Basic properties used for the publishing setup.
+	/// Moved to a separate class because as of new RabbitMq Client Library does not allow fro creation BasicProperties directly
+	/// all properties correspond to <see cref="IBasicProperties"/> interface
+	/// </summary>
 	public class BasicPropertiesConfiguration
 	{
 		public string Type { get; set; }
@@ -20,16 +24,24 @@ namespace RawRabbit.Configuration
 		/// Expiration in Milliseconds
 		/// </summary>
 		public string Expiration { get; set; }
-	
-		public Dictionary<string, object> Headers { get; } = new Dictionary<string, object>();
 
+		/// <summary>
+		/// Dictionary of headers
+		/// </summary>
+		public IDictionary<string, object> Headers { get; } = new Dictionary<string, object>();
+
+		/// <summary>
+		/// Updates provided <see cref="IBasicProperties"/ instance from own properties>
+		/// </summary>
+		/// <param name="basicProperties"></param>
+		/// <returns>updated properties</returns>
 		public IBasicProperties UpdateBasicProps(IBasicProperties basicProperties)
 		{
 			BasicPropertiesConfiguration props = this;
 
 			foreach (var prop in props.Headers)
 			{
-				DictionaryExtensions.TryAdd(basicProperties.Headers, prop.Key, prop.Value);
+				basicProperties.Headers.TryAdd(prop.Key, prop.Value);
 			}
 			if (!string.IsNullOrEmpty(props.Type))
 			{

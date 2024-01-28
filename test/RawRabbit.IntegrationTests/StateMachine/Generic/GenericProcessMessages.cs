@@ -16,7 +16,7 @@ namespace RawRabbit.IntegrationTests.StateMachine.Generic
 
 	public class StartTask
 	{
-		public Guid TaskId { get; set; }	
+		public Guid TaskId { get; set; }
 		public string Assignee { get; set; }
 	}
 

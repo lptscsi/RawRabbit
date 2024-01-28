@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using ProtoBuf;
+﻿using ProtoBuf;
 using RawRabbit.Exceptions;
 using RawRabbit.Instantiation;
 using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers
@@ -13,7 +13,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		[Fact]
 		public async Task Should_Deliver_And_Reiieve_Messages_Serialized_With_Protobuf()
 		{
-			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions{ Plugins = p => p.UseProtobuf() }))
+			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseProtobuf() }))
 			{
 				/** Setup **/
 				var tcs = new TaskCompletionSource<ProtoMessage>();
@@ -41,10 +41,10 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		[Fact]
 		public async Task Should_Perform_Rpc_With_Messages_Serialized_With_Protobuf()
 		{
-			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions {Plugins = p => p.UseProtobuf()}))
+			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseProtobuf() }))
 			{
 				/* Setup */
-				var response = new ProtoResponse {Id = Guid.NewGuid()};
+				var response = new ProtoResponse { Id = Guid.NewGuid() };
 				await client.RespondAsync<ProtoRequest, ProtoResponse>(request => Task.FromResult(response));
 
 				/* Test */
@@ -108,7 +108,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 				/* Test */
 				/* Assert */
 				var e = await Assert.ThrowsAsync<MessageHandlerException>(() =>
-					protobufClient.RequestAsync<ProtoRequest, ProtoResponse>(new ProtoRequest {  Id = Guid.NewGuid()}
+					protobufClient.RequestAsync<ProtoRequest, ProtoResponse>(new ProtoRequest { Id = Guid.NewGuid() }
 				, ctx => ctx.UseContentTypeCheck()));
 			}
 		}

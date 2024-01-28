@@ -1,7 +1,7 @@
-﻿using System;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.PublishAndSubscribe
@@ -15,7 +15,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 			using (var subscriber = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */
-				var message = new BasicMessage {Prop = Guid.NewGuid().ToString()};
+				var message = new BasicMessage { Prop = Guid.NewGuid().ToString() };
 				var receivedTcs = new TaskCompletionSource<BasicMessage>();
 				var sendCts = new CancellationTokenSource();
 				await subscriber.SubscribeAsync<BasicMessage>(received =>

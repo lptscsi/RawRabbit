@@ -1,6 +1,7 @@
 ﻿using RabbitMQ.Client;
 using RawRabbit.Channel.Abstraction;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

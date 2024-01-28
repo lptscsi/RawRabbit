@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
 using RawRabbit.Enrichers.GlobalExecutionId;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Enrichers.MessageContext.Context;
@@ -10,6 +6,10 @@ using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Operations.MessageSequence;
 using RawRabbit.Operations.MessageSequence.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.MessageSequence
@@ -18,7 +18,7 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 	{
 		[Fact]
 		public async Task Should_Create_Simple_Chain_Of_One_Send_And_Final_Receive()
-		{	
+		{
 			/* Setup */
 			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{
@@ -259,7 +259,7 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 				);
 
 				await firstTcs.Task;
-				Task.WaitAll(new Task[] {secondTcs.Task, thirdTcs.Task}, TimeSpan.FromMilliseconds(400));
+				Task.WaitAll(new Task[] { secondTcs.Task, thirdTcs.Task }, TimeSpan.FromMilliseconds(400));
 				secondTcs.Task.Wait(TimeSpan.FromMilliseconds(400));
 
 				/* Assert */
@@ -297,7 +297,7 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 		public async Task Should_Forward_Message_Context_In_When_Message_Handler()
 		{
 			/* Setup */
-			using(var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
+			using (var client = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{
 				Plugins = p => p
 					.UseMessageContext<MessageContext>()
@@ -308,7 +308,7 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 			{
 				Plugins = p => p
 					.UseStateMachine()
-					.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid()})
+					.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid() })
 					.UseContextForwarding()
 					.UseGlobalExecutionId()
 			}))
@@ -350,13 +350,13 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 			{
 				Plugins = p => p
 					.UseStateMachine()
-					.UseMessageContext(context => new MessageContext {GlobalRequestId = Guid.NewGuid()})
+					.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid() })
 					.UseContextForwarding()
 					.UseGlobalExecutionId()
 			}))
 			{
 				/* Setup */
-				var guidMsg = new GenericMessage<Guid>{ Prop = Guid.NewGuid()};
+				var guidMsg = new GenericMessage<Guid> { Prop = Guid.NewGuid() };
 				await client.SubscribeAsync<GenericMessage<string>>(message =>
 					client.PublishAsync(guidMsg)
 				);
@@ -379,7 +379,7 @@ namespace RawRabbit.IntegrationTests.MessageSequence
 			{
 				Plugins = p => p
 					.UseStateMachine()
-					.UseMessageContext(context => new MessageContext {GlobalRequestId = Guid.NewGuid()})
+					.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid() })
 					.UseContextForwarding()
 					.UseGlobalExecutionId()
 			};

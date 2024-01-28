@@ -1,5 +1,5 @@
-﻿using System;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
+using System;
 using Xunit;
 
 namespace RawRabbit.PerformanceTest

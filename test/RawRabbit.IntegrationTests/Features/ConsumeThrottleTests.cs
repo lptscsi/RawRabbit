@@ -1,10 +1,9 @@
-﻿using System;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using RawRabbit.Pipe;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Features
@@ -63,7 +62,7 @@ namespace RawRabbit.IntegrationTests.Features
 
 				/* Assert */
 				var entryTimes = concurrentEntryTimes.ToList();
-				for (var i = concurrencyLevel; i < messageCount-1; i++)
+				for (var i = concurrencyLevel; i < messageCount - 1; i++)
 				{
 					var timeDiff = entryTimes[i] - entryTimes[i - 1];
 					Assert.True(timeDiff.TotalMilliseconds >= 0, $"Entry {entryTimes[i]} is before previous exit {entryTimes[i - 1]}");

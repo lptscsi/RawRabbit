@@ -1,6 +1,5 @@
 ﻿using Ninject;
 using Ninject.Modules;
-using RawRabbit.DependencyInjection;
 using RawRabbit.Instantiation;
 
 namespace RawRabbit.DependencyInjection.Ninject

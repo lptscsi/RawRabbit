@@ -1,9 +1,6 @@
-﻿using System;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using System;
 using System.Threading.Tasks;
-using RabbitMQ.Client;
-using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
-using RawRabbit.Pipe.Middleware;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Features
@@ -16,7 +13,7 @@ namespace RawRabbit.IntegrationTests.Features
 			var singleton = RawRabbitFactory.CreateTestClient();
 			var instanceFactory = RawRabbitFactory.CreateTestInstanceFactory();
 			var client = instanceFactory.Create();
-			var processMs =50;
+			var processMs = 50;
 			var firstMsg = (new BasicMessage { Prop = "I'll get processed" });
 			var secondMsg = (new BasicMessage { Prop = "I'll get stuck in the queue" });
 

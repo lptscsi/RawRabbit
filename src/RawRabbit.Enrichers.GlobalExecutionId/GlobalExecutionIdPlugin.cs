@@ -1,6 +1,5 @@
 ﻿using RawRabbit.Enrichers.GlobalExecutionId.Middleware;
 using RawRabbit.Instantiation;
-using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
 
 namespace RawRabbit.Enrichers.GlobalExecutionId

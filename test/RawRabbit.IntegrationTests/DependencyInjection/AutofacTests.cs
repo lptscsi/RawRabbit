@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
 using RawRabbit.Common;
 using RawRabbit.Configuration;
 using RawRabbit.DependencyInjection.Autofac;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Logging;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.DependencyInjection
@@ -68,7 +67,7 @@ namespace RawRabbit.IntegrationTests.DependencyInjection
 				var client = container.Resolve<IBusClient>();
 				await client.CreateChannelAsync();
 			});
-			
+
 
 			/* Assert */
 			Assert.True(true);

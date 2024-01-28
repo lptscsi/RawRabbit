@@ -19,7 +19,7 @@ namespace RawRabbit.PerformanceTest
 			_busClient = RawRabbitFactory.CreateSingleton();
 			_request = new Request();
 			_respond = new Respond();
-			_busClient.RespondAsync<Request,Respond>(message =>
+			_busClient.RespondAsync<Request, Respond>(message =>
 				Task.FromResult(_respond)
 			);
 			_busClient.RespondAsync<Request, Respond>(message =>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Framing;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Exchange;
 using RawRabbit.Configuration.Queue;
@@ -10,7 +7,8 @@ using RawRabbit.Enrichers.QueueSuffix;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Pipe;
-using RawRabbit.Pipe.Middleware;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.PublishAndSubscribe
@@ -30,7 +28,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 					receivedTcs.TrySetResult(received);
 					return Task.FromResult(true);
 				});
-				var message = new BasicMessage {Prop = "Hello, world!"};
+				var message = new BasicMessage { Prop = "Hello, world!" };
 
 				/* Test */
 				await publisher.PublishAsync(message);
@@ -81,7 +79,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 					return Task.FromResult(true);
 				}, ctx => ctx
 					.UseSubscribeConfiguration(cfg => cfg
-						.OnDeclaredExchange(e=> e
+						.OnDeclaredExchange(e => e
 							.WithName("custom_exchange")
 						))
 				);
@@ -120,7 +118,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 							.WithName("custom_queue")
 							.WithAutoDelete()
 							.WithArgument(QueueArgument.DeadLetterExchange, "dlx"))
-						.OnDeclaredExchange(e=> e
+						.OnDeclaredExchange(e => e
 							.WithName("custom_exchange")
 							.WithType(ExchangeType.Topic))
 				));
@@ -156,7 +154,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 				/* Setup */
 				var firstTcs = new TaskCompletionSource<BasicMessage>();
 				var secondTcs = new TaskCompletionSource<BasicMessage>();
-				var message = new BasicMessage {Prop = "I'm delivered twice."};
+				var message = new BasicMessage { Prop = "I'm delivered twice." };
 				await firstSubscriber.SubscribeAsync<BasicMessage>(msg =>
 				{
 					firstTcs.TrySetResult(msg);

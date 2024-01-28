@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.IntegrationTests.TestMessages;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.GetOperation
@@ -14,7 +14,7 @@ namespace RawRabbit.IntegrationTests.GetOperation
 			using (var client = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */
-				var message = new BasicMessage {Prop = "Get me, get it?"};
+				var message = new BasicMessage { Prop = "Get me, get it?" };
 				var conventions = new NamingConventions();
 				var exchangeName = conventions.ExchangeNamingConvention(message.GetType());
 				TestChannel.QueueDeclare(conventions.QueueNamingConvention(message.GetType()), true, false, false, null);

@@ -25,7 +25,7 @@ namespace RawRabbit.Enrichers.MessagePack
 			{
 				_options = MessagePackSerializerOptions.Standard;
 			}
-			
+
 			Type tp = typeof(MessagePackSerializer);
 
 			_deserializeType = tp

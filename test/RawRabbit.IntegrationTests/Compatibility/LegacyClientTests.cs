@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RawRabbit.Compatibility.Legacy.Configuration.Exchange;
+﻿using RawRabbit.Compatibility.Legacy.Configuration.Exchange;
 using RawRabbit.Configuration;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Compatibility
@@ -159,7 +157,7 @@ namespace RawRabbit.IntegrationTests.Compatibility
 			var responder = RawRabbit.Compatibility.Legacy.RawRabbitFactory.CreateClient(_legacyConfig);
 			MessageContext receivedContext = null;
 			BasicRequest receivedRequest = null;
-			var request = new BasicRequest {Number = 3};
+			var request = new BasicRequest { Number = 3 };
 			var subscription = responder.RespondAsync<BasicRequest, BasicResponse>((req, context) =>
 			{
 				receivedRequest = req;

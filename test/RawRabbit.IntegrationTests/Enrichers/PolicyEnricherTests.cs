@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Polly;
+﻿using Polly;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Enrichers.Polly;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Pipe;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers
@@ -32,7 +32,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 					customCalled = true;
 					var defaultQueueCfg = ctx.GetPipeContext().GetClientConfiguration().Queue;
 					var topology = ctx.GetTopologyProvider();
-					var queue = new QueueDeclaration(defaultQueueCfg) { Name = ctx.GetQueueName(), Durable = false};
+					var queue = new QueueDeclaration(defaultQueueCfg) { Name = ctx.GetQueueName(), Durable = false };
 					await topology.DeclareQueueAsync(queue);
 				});
 

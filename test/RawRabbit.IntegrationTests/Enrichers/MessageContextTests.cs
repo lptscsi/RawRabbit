@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Enrichers.MessageContext.Subscribe;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.Pipe;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers
@@ -18,7 +18,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		{
 			using (var requester = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{
-				Plugins = p => p.UseMessageContext(context => new MessageContext {GlobalRequestId = Guid.NewGuid()})
+				Plugins = p => p.UseMessageContext(context => new MessageContext { GlobalRequestId = Guid.NewGuid() })
 			}))
 			using (var responder = RawRabbitFactory.CreateTestClient())
 			{
@@ -44,7 +44,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		{
 			using (
 				var publisher =
-					RawRabbitFactory.CreateTestClient(new RawRabbitOptions {Plugins = p => p.UseMessageContext<MessageContext>()}))
+					RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseMessageContext<MessageContext>() }))
 			using (var subscriber = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */
@@ -68,7 +68,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		{
 			using (
 				var publisher =
-					RawRabbitFactory.CreateTestClient(new RawRabbitOptions {Plugins = p => p.UseMessageContext<MessageContext>()}))
+					RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseMessageContext<MessageContext>() }))
 			using (var subscriber = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */
@@ -93,7 +93,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 			var contextProp = "Created from factory method";
 			using (var publisher = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{
-				Plugins = p => p.UseMessageContext(context => new TestMessageContext {Prop = contextProp})
+				Plugins = p => p.UseMessageContext(context => new TestMessageContext { Prop = contextProp })
 			}))
 			using (var subscriber = RawRabbitFactory.CreateTestClient())
 			{
@@ -110,7 +110,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 				await contextTsc.Task;
 				/* Assert */
 				Assert.IsType<TestMessageContext>(contextTsc.Task.Result);
-				Assert.Equal(((TestMessageContext) contextTsc.Task.Result).Prop, contextProp);
+				Assert.Equal(((TestMessageContext)contextTsc.Task.Result).Prop, contextProp);
 			}
 		}
 
@@ -259,7 +259,7 @@ namespace RawRabbit.IntegrationTests.Enrichers
 		{
 			using (var publisher = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{
-				Plugins = p => p.UseMessageContext<TestMessageContext>().UseContextForwarding() 
+				Plugins = p => p.UseMessageContext<TestMessageContext>().UseContextForwarding()
 			}))
 			using (var subscriber = RawRabbitFactory.CreateTestClient(new RawRabbitOptions
 			{

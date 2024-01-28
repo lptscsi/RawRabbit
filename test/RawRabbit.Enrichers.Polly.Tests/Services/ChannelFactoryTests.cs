@@ -42,7 +42,7 @@ namespace RawRabbit.Enrichers.Polly.Tests.Services
 					TimeSpan.FromMilliseconds(16)
 				});
 
-			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies{ Connect = policy});
+			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies { Connect = policy });
 
 			/* Test */
 			/* Assert */
@@ -87,7 +87,7 @@ namespace RawRabbit.Enrichers.Polly.Tests.Services
 			var factory = new ChannelFactory(connectionFactory.Object, RawRabbitConfiguration.Local, new ConnectionPolicies { CreateChannel = policy });
 
 			/* Test */
-			var retrievedChannel = await  factory.CreateChannelAsync();
+			var retrievedChannel = await factory.CreateChannelAsync();
 
 			/* Assert */
 			Assert.Equal(channel.Object, retrievedChannel);

@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using RawRabbit.IntegrationTests.TestMessages;
+using System.Threading;
 using System.Threading.Tasks;
-using RawRabbit.IntegrationTests.TestMessages;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.PublishAndSubscribe

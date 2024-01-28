@@ -1,7 +1,6 @@
 ﻿using RawRabbit.Common;
 using RawRabbit.Serialization;
 using System;
-using System.Collections.Generic;
 
 namespace RawRabbit.Configuration.BasicPublish
 {

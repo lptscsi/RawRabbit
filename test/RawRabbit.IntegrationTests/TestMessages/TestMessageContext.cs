@@ -1,5 +1,5 @@
-﻿using System;
-using RawRabbit.Enrichers.MessageContext.Context;
+﻿using RawRabbit.Enrichers.MessageContext.Context;
+using System;
 
 namespace RawRabbit.IntegrationTests.TestMessages
 {

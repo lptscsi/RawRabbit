@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using RabbitMQ.Client;
 using RawRabbit.Channel;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.Tests.Channel
@@ -14,7 +14,7 @@ namespace RawRabbit.Tests.Channel
 		public async Task Should_Be_Able_To_Add_And_Use_Channels()
 		{
 			/* Setup */
-			var channels = new List<Mock<IModel>> {new Mock<IModel>(), new Mock<IModel>(), new Mock<IModel>()};
+			var channels = new List<Mock<IModel>> { new Mock<IModel>(), new Mock<IModel>(), new Mock<IModel>() };
 			foreach (var channel in channels)
 			{
 				channel

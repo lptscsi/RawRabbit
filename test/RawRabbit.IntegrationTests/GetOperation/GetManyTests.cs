@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RawRabbit.Common;
 using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.GetOperation

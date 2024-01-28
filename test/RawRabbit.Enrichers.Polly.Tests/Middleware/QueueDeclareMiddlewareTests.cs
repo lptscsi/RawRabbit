@@ -42,7 +42,7 @@ namespace RawRabbit.Enrichers.Polly.Tests.Middleware
 					policyCalled = true;
 					capturedContext = pollyContext;
 				}), PolicyKeys.QueueDeclare);
-			var middleware = new QueueDeclareMiddleware(topology.Object) {Next = new NoOpMiddleware()};
+			var middleware = new QueueDeclareMiddleware(topology.Object) { Next = new NoOpMiddleware() };
 
 			/* Test */
 			await middleware.InvokeAsync(context);

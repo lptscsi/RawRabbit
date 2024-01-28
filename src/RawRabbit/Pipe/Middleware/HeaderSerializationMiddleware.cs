@@ -1,7 +1,7 @@
-﻿using RabbitMQ.Client;
-using RawRabbit.Configuration;
+﻿using RawRabbit.Configuration;
 using RawRabbit.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Enrichers.GlobalExecutionId;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
-using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.Enrichers

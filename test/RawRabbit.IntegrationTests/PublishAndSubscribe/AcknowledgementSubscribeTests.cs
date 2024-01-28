@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using RawRabbit.Common;
+﻿using RawRabbit.Common;
 using RawRabbit.Enrichers.MessageContext.Context;
 using RawRabbit.Instantiation;
 using RawRabbit.IntegrationTests.TestMessages;
 using RawRabbit.IntegrationTests.TestMessages.Extras;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.PublishAndSubscribe
@@ -106,7 +106,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 
 				/* Test */
 				await publisher.PublishAsync(message);
-				Task.WaitAll(new [] {firstTsc.Task, secondTsc.Task}, TimeSpan.FromMilliseconds(200));
+				Task.WaitAll(new[] { firstTsc.Task, secondTsc.Task }, TimeSpan.FromMilliseconds(200));
 
 				/* Assert */
 				Assert.Equal(message.Prop, firstTsc.Task.Result.Prop);
@@ -278,7 +278,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 		public async Task Should_Be_Able_To_Return_Retry()
 		{
 			using (var publisher = RawRabbitFactory.CreateTestClient())
-			using (var firstSubscriber = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseRetryLater()}))
+			using (var firstSubscriber = RawRabbitFactory.CreateTestClient(new RawRabbitOptions { Plugins = p => p.UseRetryLater() }))
 			using (var secondSubscriber = RawRabbitFactory.CreateTestClient())
 			{
 				/* Setup */
@@ -383,7 +383,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 				var thirdTsc = new TaskCompletionSource<DateTime>();
 				var forthTsc = new TaskCompletionSource<DateTime>();
 
-				await subscriber.SubscribeAsync<BasicMessage> (async received =>
+				await subscriber.SubscribeAsync<BasicMessage>(async received =>
 				{
 					var receivedAt = DateTime.Now;
 					if (firstTsc.TrySetResult(receivedAt))
@@ -399,7 +399,7 @@ namespace RawRabbit.IntegrationTests.PublishAndSubscribe
 				{
 					var receivedAt = DateTime.Now;
 					if (secondTsc.TrySetResult(receivedAt))
-						 {
+					{
 						return Retry.In(TimeSpan.FromSeconds(1));
 					}
 					forthTsc.TrySetResult(receivedAt);

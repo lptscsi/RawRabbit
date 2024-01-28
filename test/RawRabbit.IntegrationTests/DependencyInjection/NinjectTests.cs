@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Ninject;
+﻿using Ninject;
 using RawRabbit.DependencyInjection.Ninject;
 using RawRabbit.Instantiation;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.IntegrationTests.DependencyInjection
@@ -14,7 +14,7 @@ namespace RawRabbit.IntegrationTests.DependencyInjection
 			/* Setup */
 			var kernel = new StandardKernel();
 			kernel.RegisterRawRabbit();
-			
+
 			/* Test */
 			var client = kernel.Get<IBusClient>();
 			var instanceFactory = kernel.Get<IInstanceFactory>();
