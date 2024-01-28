@@ -5,7 +5,7 @@ namespace RawRabbit.Configuration
 {
 	/// <summary>
 	/// Basic properties used for the publishing setup.
-	/// Moved to a separate class because as of new RabbitMq Client Library does not allow fro creation BasicProperties directly
+	/// Moved to a separate class because as of new RabbitMq Client Library, it does not allow for creation of BasicProperties directly
 	/// all properties correspond to <see cref="IBasicProperties"/> interface
 	/// </summary>
 	public class BasicPropertiesConfiguration
