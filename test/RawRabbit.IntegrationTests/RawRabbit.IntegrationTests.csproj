@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Authors>par.dahlman</Authors>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>RawRabbit.IntegrationTests</AssemblyName>
     <PackageId>RawRabbit.IntegrationTests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\RawRabbit.DependencyInjection.Ninject\RawRabbit.DependencyInjection.Ninject.csproj" />
     <ProjectReference Include="..\..\src\RawRabbit.Enrichers.MessagePack\RawRabbit.Enrichers.MessagePack.csproj" />
     <ProjectReference Include="..\..\src\RawRabbit.Enrichers.Protobuf\RawRabbit.Enrichers.Protobuf.csproj" />
     <ProjectReference Include="..\..\src\RawRabbit.Enrichers.RetryLater\RawRabbit.Enrichers.RetryLater.csproj" />
@@ -37,9 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.2" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
-    <PackageReference Include="Moq" Version="4.7.137" />
+    <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="xunit" Version="2.3.0" />
   </ItemGroup>
 
