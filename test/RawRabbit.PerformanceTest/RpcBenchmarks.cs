@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using RawRabbit.Instantiation;
-using RawRabbit.Operations.Request.Core;
-using RawRabbit.Operations.Respond.Core;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.PerformanceTest
 {
@@ -15,7 +13,7 @@ namespace RawRabbit.PerformanceTest
 		public event EventHandler MessageReceived;
 		public delegate void MessageReceivedEventHandler(EventHandler e);
 
-		[Setup]
+		[GlobalSetup]
 		public void Setup()
 		{
 			_busClient = RawRabbitFactory.CreateSingleton();
@@ -38,7 +36,7 @@ namespace RawRabbit.PerformanceTest
 			);
 		}
 
-		[Cleanup]
+		[GlobalCleanup]
 		public void Cleanup()
 		{
 			_busClient.DeleteQueueAsync<Request>();

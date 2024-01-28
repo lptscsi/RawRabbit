@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using RawRabbit.Enrichers.MessageContext;
 using RawRabbit.Instantiation;
+using System;
+using System.Threading.Tasks;
 
 namespace RawRabbit.PerformanceTest
 {
@@ -16,7 +16,7 @@ namespace RawRabbit.PerformanceTest
 		public event EventHandler MessageReceived;
 		public delegate void MessageReceivedEventHandler(EventHandler e);
 
-		[Setup]
+		[GlobalSetup]
 		public void Setup()
 		{
 			_withoutContext = RawRabbitFactory.CreateSingleton();
@@ -39,7 +39,7 @@ namespace RawRabbit.PerformanceTest
 			});
 		}
 
-		[Cleanup]
+		[GlobalCleanup]
 		public void Cleanup()
 		{
 			_withoutContext.DeleteQueueAsync<MessageA>();
