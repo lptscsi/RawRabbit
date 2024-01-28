@@ -127,7 +127,8 @@ namespace RawRabbit.Operations.Publish.Middleware
 					}
 					else
 					{
-						bool t = isOk ? tcs.TrySetResult(tag) : tcs.TrySetCanceled();
+						bool t = isOk ? tcs.TrySetResult(tag)
+							: tcs.TrySetException(new PublishConfirmException($"The broker sent a NACK publish acknowledgement for message {deliveryTag}."));
 					}
 				}
 			}
@@ -140,7 +141,8 @@ namespace RawRabbit.Operations.Publish.Middleware
 				}
 				else
 				{
-					bool t = isOk ? tcs.TrySetResult(deliveryTag) : tcs.TrySetCanceled();
+					bool t = isOk ? tcs.TrySetResult(deliveryTag)
+						: tcs.TrySetException(new PublishConfirmException($"The broker sent a NACK publish acknowledgement for message {deliveryTag}."));
 				}
 			}
 		}
