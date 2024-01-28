@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Polly;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Configuration;
 using RawRabbit.Enrichers.Polly.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace RawRabbit.Enrichers.Polly.Tests.Services

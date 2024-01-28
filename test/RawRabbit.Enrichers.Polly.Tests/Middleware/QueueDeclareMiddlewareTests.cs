@@ -1,14 +1,12 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using Polly;
-using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using RawRabbit.Common;
 using RawRabbit.Configuration.Queue;
 using RawRabbit.Pipe;
 using RawRabbit.Pipe.Middleware;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using QueueDeclareMiddleware = RawRabbit.Enrichers.Polly.Middleware.QueueDeclareMiddleware;
 
