@@ -561,7 +561,7 @@ namespace RawRabbit.Logging
 #else
 		internal
 #endif
-			static ILog For<T>()
+	    static ILog For<T>()
 		{
 			return GetLogger(typeof(T));
 		}
@@ -595,7 +595,7 @@ namespace RawRabbit.Logging
 #else
 		internal
 #endif
-			static ILog GetLogger(Type type, string fallbackTypeName = "System.Object")
+	    static ILog GetLogger(Type type, string fallbackTypeName = "System.Object")
 		{
 			// If the type passed in is null then fallback to the type name specified
 			return GetLogger(type != null ? type.FullName : fallbackTypeName);

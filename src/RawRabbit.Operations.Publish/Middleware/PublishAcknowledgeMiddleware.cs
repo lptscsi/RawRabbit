@@ -3,6 +3,7 @@ using RawRabbit.Common;
 using RawRabbit.Exceptions;
 using RawRabbit.Logging;
 using RawRabbit.Operations.Publish.Context;
+using RawRabbit.Operations.Publish.Utils;
 using RawRabbit.Pipe;
 using System;
 using System.Collections.Concurrent;
@@ -28,10 +29,211 @@ namespace RawRabbit.Operations.Publish.Middleware
 		protected Func<IPipeContext, IModel> ChannelFunc;
 		protected Func<IPipeContext, bool> EnabledFunc;
 
-		protected static Dictionary<IModel, ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>> ConfirmsDictionary =
-			new Dictionary<IModel, ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>>();
-		protected static ConcurrentDictionary<IModel, object> ChannelLocks = new ConcurrentDictionary<IModel, object>();
-		protected static Dictionary<IModel, ulong> ChannelSequences = new Dictionary<IModel, ulong>();
+		record ChannelDeliveryTagEntry(ulong deliveryTag, TaskCompletionSource<ulong> tcs, DateTime createdTime);
+
+		record ChannelEntry(IModel channel, object syncLock, SortedSet<ChannelDeliveryTagEntry> sortedByTag, SortedSet<ChannelDeliveryTagEntry> sortedByTime);
+
+		/// <summary>
+		/// Processess Publisher confirmations
+		/// </summary>
+		static class AcknowledgementsBookKeeper
+		{
+			private class SortByTagComparer : IComparer<ChannelDeliveryTagEntry>
+			{
+				public int Compare(ChannelDeliveryTagEntry x, ChannelDeliveryTagEntry y)
+				{
+					return x.deliveryTag.CompareTo(y.deliveryTag);
+				}
+			}
+			private class SortByTimeComparer : IComparer<ChannelDeliveryTagEntry>
+			{
+				public int Compare(ChannelDeliveryTagEntry x, ChannelDeliveryTagEntry y)
+				{
+					return x.createdTime.CompareTo(y.createdTime);
+				}
+			}
+
+			static ConcurrentDictionary<IModel, ChannelEntry> _channelsDictionary = new ConcurrentDictionary<IModel, ChannelEntry>();
+
+			static JobTimer _jobTimer;
+
+			static Lazy<ILog> _logger;
+
+			/// <summary>
+			/// Static constructor
+			/// </summary>
+			static AcknowledgementsBookKeeper()
+			{
+				_logger = new Lazy<ILog>(() =>
+				{
+					return LogProvider.For<PublishAcknowledgeMiddleware>();
+				}, true);
+
+				_jobTimer = new JobTimer(TimeSpan.FromMilliseconds(2000),
+				() => {
+					OnTimer();
+				},
+				() => _channelsDictionary.Count,
+				CancellationToken.None);
+			}
+
+			#region Private Methods
+
+			/// <summary>
+			/// Timer event handler
+			/// </summary>
+			private static void OnTimer()
+			{
+				foreach (ChannelEntry channelEntry in _channelsDictionary.Values.ToList())
+				{
+					try
+					{
+						IEnumerable<ChannelDeliveryTagEntry> tagEntries;
+
+						if (channelEntry.channel.IsClosed)
+						{
+							int count = 0;
+							lock (channelEntry.syncLock)
+							{
+								count = channelEntry.sortedByTag.Count;
+							}
+
+							if (count == 0)
+							{
+								_channelsDictionary.TryRemove(channelEntry.channel, out _);
+								continue;
+							}
+						}
+
+						lock (channelEntry.syncLock)
+						{
+							// get entries with timeouts
+							tagEntries = GetEntriesByTime(channelEntry, DateTime.UtcNow);
+
+							foreach (var tagEntry in tagEntries)
+							{
+								RemoveTagEntry(channelEntry, tagEntry);
+							}
+						}
+
+						foreach (var tagEntry in tagEntries)
+						{
+							tagEntry.tcs.TrySetException(new PublishConfirmException($"The broker did not confirm publishing for message {tagEntry.deliveryTag}."));
+						}
+					}
+					catch (Exception ex)
+					{
+						_logger.Value.Error(ex.Message, ex);
+					}
+				}
+			}
+
+			static bool RemoveTagEntry(ChannelEntry channelEntry, ChannelDeliveryTagEntry tagEntry)
+			{
+				// no need to lock here. This method call is always locked
+				return channelEntry.sortedByTag.Remove(tagEntry) &&	channelEntry.sortedByTime.Remove(tagEntry);
+			}
+
+			static IEnumerable<ChannelDeliveryTagEntry> GetEntriesByTag(ChannelEntry channelEntry, ulong tag, bool multiple)
+			{
+				ChannelDeliveryTagEntry tagEntry = new ChannelDeliveryTagEntry(tag, null, new DateTime(0));
+				if (multiple) {
+					ChannelDeliveryTagEntry minTagEntry = new ChannelDeliveryTagEntry(0, null, new DateTime(0));
+					return channelEntry.sortedByTag.GetViewBetween(minTagEntry, tagEntry).ToList();
+				}
+				else
+				{
+					if (channelEntry.sortedByTag.TryGetValue(tagEntry, out var res))
+					{
+						return new ChannelDeliveryTagEntry[] { res };
+					}
+					else
+					{
+						return new ChannelDeliveryTagEntry[0];
+					}
+				}
+			}
+
+			static IEnumerable<ChannelDeliveryTagEntry> GetEntriesByTime(ChannelEntry channelEntry, DateTime time)
+			{
+				ChannelDeliveryTagEntry tagEntry = new ChannelDeliveryTagEntry(0, null, time);
+
+				ChannelDeliveryTagEntry minTagEntry = new ChannelDeliveryTagEntry(0, null, new DateTime(0));
+				return channelEntry.sortedByTime.GetViewBetween(minTagEntry, tagEntry).ToList();
+			}
+
+			#endregion
+
+			public static bool ProcessAcknowledgement(
+				IModel channel,
+				ulong deliveryTag,
+				bool multiple,
+				bool isOk,
+				CancellationToken token)
+			{
+				bool isFound = _channelsDictionary.TryGetValue(channel, out ChannelEntry channelEntry);
+				if (!isFound)
+				{
+					return false;
+				}
+				IEnumerable<ChannelDeliveryTagEntry> tagEntries;
+
+				lock (channelEntry.syncLock)
+				{
+					tagEntries = GetEntriesByTag(channelEntry, deliveryTag, multiple);
+					foreach (var tagEntry in tagEntries)
+					{
+						if (!RemoveTagEntry(channelEntry, tagEntry))
+						{
+							_logger.Value.Warn($"Did not find entry for deliveryTag: {tagEntry.deliveryTag}");
+						}
+					}
+				}
+
+
+				foreach (var tagEntry in tagEntries)
+				{
+					if (token.IsCancellationRequested)
+					{
+						return true;
+					}
+
+					_ = isOk ?
+								tagEntry.tcs.TrySetResult(tagEntry.deliveryTag) :
+								tagEntry.tcs.TrySetException(new PublishConfirmException($"The broker sent a NACK publish acknowledgement for message {deliveryTag}."));
+
+				}
+
+				return true;
+			}
+
+			public static ChannelEntry GetOrAddChannel(IModel channel)
+			{
+				ChannelEntry result = _channelsDictionary.GetOrAdd(channel, (channel) =>
+				{
+					ChannelEntry entry = new ChannelEntry(
+						channel,
+						new object(),
+						new SortedSet<ChannelDeliveryTagEntry>(new SortByTagComparer()),
+						new SortedSet<ChannelDeliveryTagEntry>(new SortByTimeComparer())
+						);
+					return entry;
+				});
+
+				_jobTimer.StartIfStopped();
+
+				return result;
+			}
+
+			public static void AddTagEntry(ChannelEntry channelEntry, ChannelDeliveryTagEntry tagEntry)
+			{
+				lock (channelEntry.syncLock)
+				{
+					channelEntry.sortedByTag.Add(tagEntry);
+					channelEntry.sortedByTime.Add(tagEntry);
+				}
+			}
+		}
 
 		public PublishAcknowledgeMiddleware(IExclusiveLock exclusive, PublishAcknowledgeOptions options = null)
 		{
@@ -43,35 +245,34 @@ namespace RawRabbit.Operations.Publish.Middleware
 
 		public override async Task InvokeAsync(IPipeContext context, CancellationToken token)
 		{
-			var enabled = GetEnabled(context);
+			bool enabled = GetEnabled(context);
 			if (!enabled)
 			{
 				_logger.Debug("Publish Acknowledgement is disabled.");
 				await Next.InvokeAsync(context, token);
 				return;
 			}
-			var channel = GetChannel(context);
+			IModel channel = GetChannel(context);
 
 			if (!PublishAcknowledgeEnabled(channel))
 			{
 				EnableAcknowledgement(channel, token);
 			}
 
-			var channelLock = ChannelLocks.GetOrAdd(channel, c => new object());
-			var ackTcs = new TaskCompletionSource<ulong>();
+			TaskCompletionSource<ulong> ackTcs = new TaskCompletionSource<ulong>(TaskCreationOptions.RunContinuationsAsynchronously);
+			ChannelEntry channelEntry = AcknowledgementsBookKeeper.GetOrAddChannel(channel);
 
-			await _exclusive.ExecuteAsync(channelLock, o =>
+			await _exclusive.ExecuteAsync(channelEntry, o =>
 			{
-				var sequence = channel.NextPublishSeqNo;
-				SetupTimeout(context, sequence, ackTcs);
-				if (!GetChannelDictionary(channel).TryAdd(sequence, ackTcs))
-				{
-					_logger.Info("Unable to add ack '{publishSequence}' on channel {channelNumber}", sequence, channel.ChannelNumber);
-				}
+				ulong sequence = channel.NextPublishSeqNo;
+				TimeSpan timeout = GetAcknowledgeTimeOut(context);
+				ChannelDeliveryTagEntry tagEntry = new ChannelDeliveryTagEntry(sequence, ackTcs, DateTime.UtcNow + timeout);
+				AcknowledgementsBookKeeper.AddTagEntry(channelEntry, tagEntry);
 				_logger.Info("Sequence {sequence} added to dictionary", sequence);
 
 				return Next.InvokeAsync(context, token);
 			}, token);
+
 			await ackTcs.Task;
 		}
 
@@ -95,58 +296,6 @@ namespace RawRabbit.Operations.Publish.Middleware
 			return EnabledFunc(context);
 		}
 
-		protected virtual ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> GetChannelDictionary(IModel channel)
-		{
-			if (!ConfirmsDictionary.ContainsKey(channel))
-			{
-				ConfirmsDictionary.Add(channel, new ConcurrentDictionary<ulong, TaskCompletionSource<ulong>>());
-			}
-			return ConfirmsDictionary[channel];
-		}
-
-		private void ProcessAcknowledgement(
-			ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> dictionary,
-			ulong deliveryTag,
-			bool multiple,
-			bool isOk,
-			CancellationToken token)
-		{
-			if (multiple)
-			{
-				IEnumerable<ulong> tags = dictionary.Keys.Where(k => k <= deliveryTag).ToList();
-				foreach (var tag in tags)
-				{
-					if (token.IsCancellationRequested)
-					{
-						return;
-					}
-
-					if (!dictionary.TryRemove(tag, out var tcs))
-					{
-						_logger.Warn("Unable to find ack tcs for {deliveryTag}", tag);
-					}
-					else
-					{
-						bool t = isOk ? tcs.TrySetResult(tag)
-							: tcs.TrySetException(new PublishConfirmException($"The broker sent a NACK publish acknowledgement for message {deliveryTag}."));
-					}
-				}
-			}
-			else
-			{
-				_logger.Info("Received ack for {deliveryTag}", deliveryTag);
-				if (!dictionary.TryRemove(deliveryTag, out var tcs))
-				{
-					_logger.Warn("Unable to find ack tcs for {deliveryTag}", deliveryTag);
-				}
-				else
-				{
-					bool t = isOk ? tcs.TrySetResult(deliveryTag)
-						: tcs.TrySetException(new PublishConfirmException($"The broker sent a NACK publish acknowledgement for message {deliveryTag}."));
-				}
-			}
-		}
-
 		protected virtual void EnableAcknowledgement(IModel channel, CancellationToken token)
 		{
 			_logger.Info("Setting 'Publish Acknowledge' for channel '{channelNumber}'", channel.ChannelNumber);
@@ -157,30 +306,17 @@ namespace RawRabbit.Operations.Publish.Middleware
 					return;
 				}
 				c.ConfirmSelect();
-				ConcurrentDictionary<ulong, TaskCompletionSource<ulong>> dictionary = GetChannelDictionary(c);
 
 				c.BasicAcks += (sender, args) =>
 				{
-					ProcessAcknowledgement(dictionary, args.DeliveryTag, args.Multiple, true, token);
+					AcknowledgementsBookKeeper.ProcessAcknowledgement(channel, args.DeliveryTag, args.Multiple, true, token);
 				};
 
 				c.BasicNacks += (sender, args) =>
 				{
-					ProcessAcknowledgement(dictionary, args.DeliveryTag, args.Multiple, false, token);
+					AcknowledgementsBookKeeper.ProcessAcknowledgement(channel, args.DeliveryTag, args.Multiple, false, token);
 				};
 			}, token);
-		}
-
-		protected virtual void SetupTimeout(IPipeContext context, ulong sequence, TaskCompletionSource<ulong> ackTcs)
-		{
-			var timeout = GetAcknowledgeTimeOut(context);
-			Timer ackTimer = null;
-			_logger.Info("Setting up publish acknowledgement for {publishSequence} with timeout {timeout:g}", sequence, timeout);
-			ackTimer = new Timer(state =>
-			{
-				ackTcs.TrySetException(new PublishConfirmException($"The broker did not send a publish acknowledgement for message {sequence} within {timeout:g}."));
-				ackTimer?.Dispose();
-			}, null, timeout, new TimeSpan(-1));
 		}
 	}
 
